@@ -11,12 +11,13 @@ export class MedicalListPage implements OnInit {
   id: number;
   items: any;
 
-  constructor(public storage: Storage, private providerSvc: ProviderService) { }
+  constructor(private providerSvc: ProviderService) { }
 
   ngOnInit() {
-    this.storage.get('USER_INFO').then(data => {
-      if(data != null) {
-        this.id = data[0].patient_id;
+    Storage.get({key: 'USER_INFO'}).then(data => {
+      if(data && data.value !== null) {
+        const item = JSON.parse(data.value);
+        this.id = item.patient_id;
         this.getMedicalData(this.id);
       }
     }, error => {

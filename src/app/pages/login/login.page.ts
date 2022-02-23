@@ -4,8 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { Storage } from '@capacitor/storage';
-import { AuthenticationService } from 'src/app/services/authentication.service';
-import { ControllersService } from 'src/app/services/controllers.service';
+import { AuthenticationService } from '../../services/authentication.service';
+import { ControllersService } from '../../services/controllers.service';
 
 @Component({
   selector: 'app-login',

@@ -19,19 +19,19 @@ const routes: Routes = [
       },
       {
         path: 'appointment',
-        loadChildren: '../appointment/appointment.module#AppointmentPageModule'
+        loadChildren: () => import('../appointment/appointment.module').then( m => m.AppointmentPageModule)
       },
       {
         path: 'search',
-        loadChildren: '../search/search.module#SearchPageModule'
+        loadChildren: () => import('../search/search.module').then( m => m.SearchPageModule)
       },
       {
         path: 'message',
-        loadChildren: '../message/message.module#MessagePageModule'
+        loadChildren: () => import('../message/message.module').then( m => m.MessagePageModule)
       },
       {
         path: 'profile',
-        loadChildren: '../profile/profile.module#ProfilePageModule'
+        loadChildren: () => import('../profile/profile.module').then( m => m.ProfilePageModule)
       },
     ]
     // ! End

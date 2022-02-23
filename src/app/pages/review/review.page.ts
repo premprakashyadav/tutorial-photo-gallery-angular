@@ -2,7 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { ProviderService } from '../../services/provider.service';
 import { ControllersService } from '../../services/controllers.service';
-import { Storage } from '@capacitor/storage';
 
 @Component({
   selector: 'app-review',
@@ -13,8 +12,7 @@ export class ReviewPage implements OnInit {
 
   constructor(public modalCtrl: ModalController,
               private providerSvc: ProviderService,
-              public ctrl: ControllersService,
-              private storage: Storage) { }
+              public ctrl: ControllersService) { }
 
   @Input() public doctorID: string;
   @Input() public patientID: string;
@@ -46,7 +44,7 @@ export class ReviewPage implements OnInit {
   }
 
   async closeModal() {
-    await this.modalCtrl.dismiss();
+    await this.modalCtrl.dismiss(null, undefined);
   }
 
 }

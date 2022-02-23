@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ProviderService } from 'src/app/services/provider.service';
+import { ProviderService } from '../../services/provider.service';
 import { Router } from '@angular/router';
-import { ControllersService } from 'src/app/services/controllers.service';
+import { ControllersService } from '../../services/controllers.service';
 
 @Component({
   selector: 'app-filter',

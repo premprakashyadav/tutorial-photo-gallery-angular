@@ -10,6 +10,7 @@ import { DatePipe } from '@angular/common';
 import { UserPhoto, PhotoService } from 'src/app/services/photo.service';
 import { ControllersService } from 'src/app/services/controllers.service';
 import { SharedDataProvider } from 'src/app/services/shared-data.service';
+import { Storage } from '@capacitor/storage';
 
 @Component({
   selector: 'app-doctor',
@@ -39,7 +40,6 @@ export class DoctorPage implements OnInit {
     private toastCtrl: ToastController,
     private router: Router,
     private providerSvc: ProviderService,
-    private storage: Storage,
     private datePipe: DatePipe,
     private alertController: AlertController,
     private modalController: ModalController,
@@ -53,11 +53,12 @@ export class DoctorPage implements OnInit {
     this.getData(this.doctorID);
     this.getRating();
 
-    this.storage.get('USER_INFO').then(data => {
-      if (data != null) {
-        this.patientID = data[0].patient_id;
-        this.patientEmail = data[0].patient_email;
-        this.patientName = data[0].patient_firstname + data[0].patient_lastname;
+    Storage.get({key:'USER_INFO'}).then(data => {
+      if (data && data.value != null) {
+        const item = JSON.parse(data.value);
+        this.patientID = item.patient_id;
+        this.patientEmail = item.patient_email;
+        this.patientName = item.patient_firstname + item.patient_lastname;
       }
     }, error => {
       console.log(error);

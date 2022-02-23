@@ -16,12 +16,13 @@ export class MessagePage implements OnInit {
   title:string;
   content:string;
 
-  constructor(private storage: Storage, private providerSvc: ProviderService, public localNotifications: LocalNotifications) { }
+  constructor(private providerSvc: ProviderService) { }
 
   ngOnInit() {
-    this.storage.get('USER_INFO').then(data => {
-      if(data != null) {
-        this.id = data[0].patient_id;
+    Storage.get({key: 'USER_INFO'}).then(data => {
+      if(data && data.value != null) {
+        const item = JSON.parse(data.value);
+        this.id = item.patient_id;
         this.getMessage(this.id);
       }
     }, error => {
@@ -59,10 +60,12 @@ export class MessagePage implements OnInit {
   }
 
   promptNotify() {
-    this.localNotifications.schedule({
+    LocalNotifications.schedule({
+      notifications: [{
       id: 1,
       title: this.title,
-      text: this.content,
+      body: this.content,
+    }]
     });
   }
 

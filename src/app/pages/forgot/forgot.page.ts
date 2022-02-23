@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ProviderService } from 'src/app/services/provider.service';
-import { ControllersService } from 'src/app/services/controllers.service';
+import { ProviderService } from '../../services/provider.service';
+import { ControllersService } from '../../services/controllers.service';
 
 @Component({
   selector: 'app-forgot',

@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ModalController, ToastController, AlertController } from '@ionic/angular';
-import { ProviderService } from 'src/app/services/provider.service';
+import { ProviderService } from '../../services/provider.service';
 import { Router } from '@angular/router';
-import { ControllersService } from 'src/app/services/controllers.service';
+import { ControllersService } from '../../services/controllers.service';
 
 @Component({
   selector: 'app-appointment-detail',
@@ -14,7 +14,9 @@ export class AppointmentDetailPage implements OnInit {
   items: any;
   treatment: string;
 
-  constructor(private modalController: ModalController, private providerSvc: ProviderService, public toastCtrl: ToastController, public alertController: AlertController, private router: Router, public ctrl: ControllersService) { }
+  constructor(private modalController: ModalController, private providerSvc: ProviderService,
+    public toastCtrl: ToastController, public alertController: AlertController,
+    private router: Router, public ctrl: ControllersService) { }
 
   @Input() public date: string;
   @Input() public time: string;

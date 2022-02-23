@@ -20,7 +20,6 @@ export class ProfilePage implements OnInit {
 
   constructor(public router: Router,
               public alertCtrl: AlertController,
-              private storage:Storage,
               private authService:AuthenticationService,
               private providerSvc: ProviderService) { }
 
@@ -29,16 +28,16 @@ export class ProfilePage implements OnInit {
   }
 
   getData() {
-    this.storage.get('USER_INFO').then(data => {
-      if(data != null) {
-        this.items = data;
-        this.profileLastname = data[0].patient_lastname;
-        this.profileFirstname = data[0].patient_firstname;
-        this.profileCreated = data[0].date_created;
+    Storage.get({key: 'USER_INFO'}).then(data => {
+      if(data && data.value != null) {
+        this.items = data.value;
+        this.profileLastname = this.items.patient_lastname;
+        this.profileFirstname = this.items.patient_firstname;
+        this.profileCreated = this.items.date_created;
         if (this.profileAvatar == null) {
           this.profileAvatar = this.providerSvc.emptyURL;
         } else  {
-          this.profileAvatar = data[0].patient_avatar;
+          this.profileAvatar = this.items.patient_avatar;
         }
       }
     }, error => {

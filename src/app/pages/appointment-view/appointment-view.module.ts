@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
+import { ReviewPageModule } from '../review/review.module';
 
 
 const routes: Routes = [
@@ -21,9 +22,10 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
+    ReviewPageModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [AppointmentViewPage, ReviewPage],
-  entryComponents: [ReviewPage]
+  declarations: [AppointmentViewPage],
+  entryComponents: []
 })
 export class AppointmentViewPageModule {}

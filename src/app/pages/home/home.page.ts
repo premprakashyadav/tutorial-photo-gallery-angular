@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Storage } from '@capacitor/storage';
-import { ProviderService } from 'src/app/services/provider.service';
+import { ProviderService } from '../../services/provider.service';
 import { LocalNotifications } from '@capacitor/local-notifications';
 import { DatePipe } from '@angular/common';
 

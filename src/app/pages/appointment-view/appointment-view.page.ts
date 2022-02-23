@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProviderService } from 'src/app/services/provider.service';
+import { ProviderService } from '../../services/provider.service';
 import { DatePipe } from '@angular/common';
 import { AlertController, ModalController } from '@ionic/angular';
 import { ReviewPage } from '../review/review.page';

@@ -14,7 +14,7 @@ export class ProfileEditPage implements OnInit {
   id: string;
   items: any;
 
-  constructor(private storage:Storage, 
+  constructor(
               public ctrl: ControllersService, 
               private providerSvc: ProviderService,
               public datePipe: DatePipe) { }
@@ -25,18 +25,19 @@ export class ProfileEditPage implements OnInit {
   }
 
   getData() {
-    this.storage.get('USER_INFO').then(data => {
-      if(data != null) {
-        this.id = data[0].patient_id;
-        this.formData.lastname = data[0].patient_lastname;
-        this.formData.firstname = data[0].patient_firstname;
-        this.formData.email = data[0].patient_email;
-        this.formData.identity = data[0].patient_identity;
-        this.formData.gender = data[0].patient_gender;
-        this.formData.dob = data[0].patient_dob;
-        this.formData.contact = data[0].patient_contact;
-        this.formData.maritalstatus = data[0].patient_maritalstatus;
-        this.formData.nationality = data[0].patient_nationality;
+    Storage.get({key: 'USER_INFO'}).then(data => {
+      if(data && data.value != null) {
+        const item = JSON.parse(data.value);
+        this.id = item.patient_id;
+        this.formData.lastname = item.patient_lastname;
+        this.formData.firstname = item.patient_firstname;
+        this.formData.email = item.patient_email;
+        this.formData.identity = item.patient_identity;
+        this.formData.gender = item.patient_gender;
+        this.formData.dob = item.patient_dob;
+        this.formData.contact = item.patient_contact;
+        this.formData.maritalstatus = item.patient_maritalstatus;
+        this.formData.nationality = item.patient_nationality;
       }
     }, error => {
       console.log(error);
@@ -44,9 +45,10 @@ export class ProfileEditPage implements OnInit {
   }
   
   Save() {
-    this.storage.get('USER_INFO').then(data => {
-      if(data != null) {
-        this.id = data[0].patient_id;
+    Storage.get({key: 'USER_INFO'}).then(data => {
+      if(data && data.value != null) {
+        const item = JSON.parse(data.value);
+        this.id = item.patient_id;
       }
     }, error => {
       console.log(error);
@@ -70,7 +72,7 @@ export class ProfileEditPage implements OnInit {
     
             this.providerSvc.postData("profile-edit.php", dataPost).subscribe(res => {
               this.ctrl.alertPopUp("Successful", "Updated", "OK");
-              this.storage.set('USER_INFO',res).then((data) => {
+              Storage.set({key: 'USER_INFO', value: JSON.stringify(res)}).then((data) => {
                 this.getData();
               });
             }, error => {

@@ -1,7 +1,10 @@
 {
 	"appId": "io.ionic.demo.pg.cap.ng",
-	"appName": "Photo Gallery Cap Ng",
+	"appName": "Surgician",
 	"bundledWebRuntime": false,
 	"npmClient": "npm",
-	"webDir": "www"
+	"webDir": "www",
+	"server": {
+		"cleartext": true
+	}
 }

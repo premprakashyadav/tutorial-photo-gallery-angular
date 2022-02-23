@@ -16,16 +16,16 @@ export class ProfilePasswordPage implements OnInit {
   id: any;
 
   constructor(public ctrl: ControllersService,
-    private providerSvc: ProviderService,
-    private storage: Storage) { }
+    private providerSvc: ProviderService) { }
 
   ngOnInit() {
   }
 
   updateData() {
-    this.storage.get('USER_INFO').then(data => {
-      if (data != null) {
-        this.id = data[0].patient_id;
+    Storage.get({key: 'USER_INFO'}).then(data => {
+      if(data && data.value != null) {
+        const item = JSON.parse(data.value);
+        this.id = item.patient_id;
       }
     }, error => {
       console.log(error);
@@ -53,7 +53,7 @@ export class ProfilePasswordPage implements OnInit {
                     this.ctrl.alertPopUp("Attention", "Password do not Match", "OK");
                   } else {
                     this.ctrl.alertPopUp("Successful", "Updated", "OK");
-                    this.storage.set('USER_INFO', res).then((data) => {});
+                    Storage.set({key: 'USER_INFO', value: JSON.stringify(res)}).then((data) => {});
                   }
 
                 }, error => {

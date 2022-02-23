@@ -13,7 +13,7 @@ export class ProfileAddressPage implements OnInit {
   id: string;
   items: any;
 
-  constructor(private storage: Storage, public ctrl: ControllersService, 
+  constructor(public ctrl: ControllersService, 
     private providerSvc: ProviderService) { }
 
   ngOnInit() {
@@ -22,14 +22,15 @@ export class ProfileAddressPage implements OnInit {
   }
 
   getData() {
-    this.storage.get('USER_INFO').then(data => {
-      if(data != null) {
-        this.id = data[0].patient_id;
-        this.formData.address = data[0].patient_address;
-        this.formData.city = data[0].patient_city;
-        this.formData.state = data[0].patient_state;
-        this.formData.zipcode = data[0].patient_zipcode;
-        this.formData.country = data[0].patient_country;
+    Storage.get({key: 'USER_INFO'}).then(data => {
+      if(data && data.value != null) {
+        const item = JSON.parse(data.value);
+        this.id = item.patient_id;
+        this.formData.address = item.patient_address;
+        this.formData.city = item.patient_city;
+        this.formData.state = item.patient_state;
+        this.formData.zipcode = item.patient_zipcode;
+        this.formData.country = item.patient_country;
       }
     }, error => {
       console.log(error);
@@ -37,9 +38,10 @@ export class ProfileAddressPage implements OnInit {
   }
 
   Save() {
-    this.storage.get('USER_INFO').then(data => {
-      if(data != null) {
-        this.id = data[0].patient_id;
+    Storage.get({key: 'USER_INFO'}).then(data => {
+      if(data && data.value != null) {
+        const item = JSON.parse(data.value);
+        this.id = item.patient_id;
       }
     }, error => {
       console.log(error);
@@ -58,7 +60,7 @@ export class ProfileAddressPage implements OnInit {
 
         this.providerSvc.postData("profile-address.php", dataPost).subscribe(res => {
           this.ctrl.alertPopUp("Successful", "Updated", "OK");
-          this.storage.set('USER_INFO',res).then((data) => {
+          Storage.set({key: 'USER_INFO', value: JSON.stringify(res)}).then((data) => {
             this.getData();
           });
         }, error => {

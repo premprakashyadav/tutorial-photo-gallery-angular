@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Storage } from '@capacitor/storage';
-import { ProviderService } from 'src/app/services/provider.service';
+import { ProviderService } from '../../services/provider.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -14,12 +14,13 @@ export class AppointmentPage implements OnInit {
   imgURL: string = this.providerSvc.imgURL;
   empty:number;
 
-  constructor(private storage: Storage, private providerSvc: ProviderService, private router: Router) { }
+  constructor(private providerSvc: ProviderService, private router: Router) { }
 
   ngOnInit() {
-    this.storage.get('USER_INFO').then(data => {
-      if(data != null) {
-        this.id = data[0].patient_id;
+    Storage.get({key: 'USER_INFO'}).then(data => {
+      if(data && data.value != null) {
+        const item = JSON.parse(data.value);
+        this.id = item.patient_id;
         this.getAppointmentData(this.id);
       }
     }, error => {

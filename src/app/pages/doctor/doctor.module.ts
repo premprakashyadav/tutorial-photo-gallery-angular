@@ -8,6 +8,8 @@ import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
+import { AppointmentDetailPageModule } from '../appointment-detail/appointment-detail.module';
+import { ReviewDetailsPageModule } from '../review-details/review-details.module';
 
 
 const routes: Routes = [
@@ -22,9 +24,11 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
+    AppointmentDetailPageModule,
+    ReviewDetailsPageModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [DoctorPage, AppointmentDetailPage, ReviewDetailsPage],
-  entryComponents: [AppointmentDetailPage, ReviewDetailsPage],
+  declarations: [DoctorPage],
+  entryComponents:[],
 })
 export class DoctorPageModule {}
