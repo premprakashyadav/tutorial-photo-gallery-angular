@@ -1,15 +1,15 @@
 import { AppointmentDetailPage } from '../appointment-detail/appointment-detail.page';
 import { ReviewDetailsPage } from '../review-details/review-details.page';
 
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ToastController, AlertController, ModalController, ActionSheetController } from '@ionic/angular';
-import { ProviderService } from 'src/app/services/provider.service';
+import { ProviderService } from '../../services/provider.service';
 import { DatePipe } from '@angular/common';
-import { UserPhoto, PhotoService } from 'src/app/services/photo.service';
-import { ControllersService } from 'src/app/services/controllers.service';
-import { SharedDataProvider } from 'src/app/services/shared-data.service';
+import { UserPhoto, PhotoService } from '../../services/photo.service';
+import { ControllersService } from '../../services/controllers.service';
+import { SharedDataProvider } from '../../services/shared-data.service';
 import { Storage } from '@capacitor/storage';
 
 @Component({
@@ -17,7 +17,9 @@ import { Storage } from '@capacitor/storage';
   templateUrl: './doctor.page.html',
   styleUrls: ['./doctor.page.scss'],
 })
-export class DoctorPage implements OnInit {
+export class DoctorPage implements OnInit, AfterViewInit {
+  @ViewChild('userInput') userInputViewChild: ElementRef;
+  userInputElement: HTMLInputElement;
   items: any;
   itemsSchedule: any;
   doctorID: any;
@@ -28,6 +30,7 @@ export class DoctorPage implements OnInit {
   patientEmail: any;
   patientName: any;
   doctorName: any;
+  prescription: any;
   imgURL: string;
 
   itemsSpec: any;
@@ -208,6 +211,7 @@ export class DoctorPage implements OnInit {
         patientEmail: this.patientEmail,
         patientName: this.patientName,
         doctorName: this.doctorName,
+        prescription: this.prescription
       }
     });
     modal.onDidDismiss().then(dataReturned => {
@@ -241,19 +245,22 @@ export class DoctorPage implements OnInit {
 
     } else {
       let actionSheet = await this.actionSheetCtrl.create({
-        header: 'Modify your album',
+        header: 'Upload Prescriptions',
         buttons: [
           {
             text: 'Upload from Library',
             handler: () => {
-              this.openPicker()
+              //this.openPicker()
+              this.userInputElement.click();
             }
-          }, {
-            text: 'Camera',
-            handler: () => {
-              this.opemcam()
-            }
-          }, {
+          },
+          // {
+          //   text: 'Camera',
+          //   handler: () => {
+          //     this.opemcam()
+          //   }
+          // },
+          {
             text: 'Cancel',
             role: 'cancel',
             handler: () => {
@@ -266,13 +273,22 @@ export class DoctorPage implements OnInit {
     }
 }
 
+loadImageFromDevice1(event) {
+  this.prescription = event.target.files;
+  console.log(event.target.files);
+  this.attachmentImg = this.prescription;
+  
+};
+
+ngAfterViewInit() {
+  setTimeout(() => {
+    this.userInputElement = this.userInputViewChild.nativeElement;
+}, 1000);
+};
+
 opemcam() {
-  // this.sharedDataProvider.openCamera(this.attachmentImg).then(data => {
-  //   console.log("data", data);
-  //   if (data && data.length > 0) {
-  //     this.attachmentImg = data;
-  //   }
-  // })
+  this.photoService.addNewToGallery();
+ // console.log(this.photoService.fileData);
 }
 
 

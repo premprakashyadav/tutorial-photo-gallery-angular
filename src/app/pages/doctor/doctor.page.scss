@@ -58,7 +58,7 @@ ion-toolbar {
 
 .booking-wrap {
     .date-picker {
-        padding: 0 35%;
+        padding: 0;
     }
 }
 
@@ -77,4 +77,11 @@ ion-toolbar {
         font-weight: 600;
         font-size: 14pt;
     }
+}
+.attachment{
+    padding: 0 16px;
+}
+
+.select-timeslot .ion-segment{
+    margin: 2px 0;
 }

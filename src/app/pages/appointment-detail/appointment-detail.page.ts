@@ -3,6 +3,7 @@ import { ModalController, ToastController, AlertController } from '@ionic/angula
 import { ProviderService } from '../../services/provider.service';
 import { Router } from '@angular/router';
 import { ControllersService } from '../../services/controllers.service';
+import { PhotoService } from 'src/app/services/photo.service';
 
 @Component({
   selector: 'app-appointment-detail',
@@ -16,7 +17,8 @@ export class AppointmentDetailPage implements OnInit {
 
   constructor(private modalController: ModalController, private providerSvc: ProviderService,
     public toastCtrl: ToastController, public alertController: AlertController,
-    private router: Router, public ctrl: ControllersService) { }
+    private router: Router, public ctrl: ControllersService,
+    public photoService: PhotoService) { }
 
   @Input() public date: string;
   @Input() public time: string;
@@ -26,6 +28,7 @@ export class AppointmentDetailPage implements OnInit {
   @Input() public patientEmail: string;
   @Input() public patientName: string;
   @Input() public doctorName: string;
+  @Input() public prescription: any;
 
   ngOnInit() {
     this.getTreatment();
@@ -50,7 +53,10 @@ export class AppointmentDetailPage implements OnInit {
   }
 
   BookAppointment() {
+   // this.prescription.push(this.photoService.fileData);
     let dataPost = new FormData();
+    Array.from(this.prescription)
+    .forEach((file: File) => dataPost.append('inputPrescription[]', file));
     dataPost.append('inputPatient', this.patientID);
     dataPost.append('inputDate', this.date);
     dataPost.append('inputTime', this.time);
@@ -60,6 +66,7 @@ export class AppointmentDetailPage implements OnInit {
     dataPost.append('inputEmail', this.patientEmail);
     dataPost.append('inputPatientName', this.patientName);
     dataPost.append('inputDoctorName', this.doctorName);
+   // dataPost.append('inputPrescription', this.prescription)
 
     this.providerSvc.postData("appointment.php", dataPost).subscribe(res => {
       this.ctrl.presentLoading();

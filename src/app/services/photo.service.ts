@@ -47,11 +47,25 @@ export class PhotoService {
   // https://capacitor.ionicframework.com/docs/apis/storage
   */
   public async addNewToGallery() {
+    // Camera.checkPermissions().then((data) => {
+    //   console.log('check ' + data);
+    //   alert(data.photos);
+    //   if(data.photos !== 'granted') {
+    //   Camera.requestPermissions().then((subdata) => {
+    //     console.log('request ' + subdata);
+    //     alert(subdata.photos);
+    //   }).catch((suberr) => {
+    //     console.log('request error ' + suberr);
+    //   })
+    // }
+    // }).catch((err) => {
+    //   console.log('check error ' + err);
+    // });
     // Take a photo
     const capturedPhoto = await Camera.getPhoto({
       resultType: CameraResultType.Uri, // file-based data; provides best performance
       source: CameraSource.Camera, // automatically take a new photo with the camera
-      quality: 100, // highest quality (0 to 100)
+      quality: 60, // highest quality (0 to 100)
     });
 
     const savedImageFile = await this.savePicture(capturedPhoto);
@@ -101,16 +115,14 @@ export class PhotoService {
     // "hybrid" will detect Cordova or Capacitor
     if (this.platform.is('hybrid')) {
       // Read the file into base64 format
-      const file = await Filesystem.readFile({
+      const file: any = await Filesystem.readFile({
         path: cameraPhoto.path,
       });
-
       return file.data;
     } else {
       // Fetch the photo, read as a blob, then convert to base64 format
       const response = await fetch(cameraPhoto.webPath!);
       const blob = await response.blob();
-
       return (await this.convertBlobToBase64(blob)) as string;
     }
   }

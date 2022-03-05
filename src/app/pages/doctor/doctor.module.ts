@@ -1,15 +1,9 @@
-import { AppointmentDetailPage } from '../appointment-detail/appointment-detail.page';
-import { ReviewDetailsPage } from '../review-details/review-details.page';
 import { DoctorPage } from './doctor.page';
-
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
-
 import { IonicModule } from '@ionic/angular';
-import { AppointmentDetailPageModule } from '../appointment-detail/appointment-detail.module';
-import { ReviewDetailsPageModule } from '../review-details/review-details.module';
 
 
 const routes: Routes = [
@@ -24,8 +18,6 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    AppointmentDetailPageModule,
-    ReviewDetailsPageModule,
     RouterModule.forChild(routes)
   ],
   declarations: [DoctorPage],

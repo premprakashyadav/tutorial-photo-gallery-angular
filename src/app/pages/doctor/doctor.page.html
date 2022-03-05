@@ -30,7 +30,7 @@
     <ion-row class="doctor-info">
       <ion-col>
         <small>Consultation Fees</small>
-        <h6>RM {{item.consult_fee}}</h6>
+        <h6>Rs. {{item.consult_fee}}</h6>
       </ion-col>
       <ion-col (click)="reviewModal()">
         <small>Reviews</small>
@@ -57,21 +57,26 @@
   <div class="booking-wrap">
     <h6 class="section-title ion-padding-horizontal"><b>Select Date and Time</b></h6>
     <div class="date-picker">
-      <ion-datetime (ionBlur)="DateSlotChange($event)" (ionChange)="DateSlotChange($event)" displayFormat="DD MMM YYYY" min="{{minDate}}" pickerFormat="DD MMM YYYY" placeholder="Select Date"></ion-datetime>
+      <ion-datetime (ionBlur)="DateSlotChange($event)" (ionChange)="DateSlotChange($event)" displayFormat="DD MMM YYYY" min="{{minDate}}" pickerFormat="DD MMM YYYY" placeholder="DD MMM YYYY"></ion-datetime>
     </div>
     <div class="select-timeslot ion-padding-horizontal">
-      <ion-segment (ionChange)="TimeSlotChange($event)" *ngFor="let itemSch of itemsSchedule">
+      <!-- <ion-segment (ionChange)="TimeSlotChange($event)" *ngFor="let itemSch of itemsSchedule">
         <ion-segment-button value="{{itemSch.time_slot}}">
           <ion-label>{{itemSch.time_slot}}</ion-label>
         </ion-segment-button>
-      </ion-segment>
+      </ion-segment> -->
+      <ion-item>
+        <ion-label>Available Time Slot</ion-label>
+        <ion-select (ionChange)="TimeSlotChange($event)">
+          <ion-select-option *ngFor="let itemSch of itemsSchedule" [value]="itemSch.time_slot">{{itemSch.time_slot}}</ion-select-option>
+        </ion-select>
+      </ion-item>
     </div>
     <div class="attachment">
-      <p class="attach_note">If more than 8 pages attachment, you can email us <b>asknowhelpdesk@gmail.com</b></p>
-      <ion-button (click)="presentActionSheet()" color="secondary"> Attach Report/Prescription &nbsp; <ion-badge color="secondary" *ngIf="attachmentImg">{{attachmentImg.length}}</ion-badge></ion-button>
-      <span *ngIf="attachmentImg"><strong>{{attachmentImg.length}}</strong> Prescription attached</span>
-
-      <ion-grid class="attach_grid">
+      <p class="attach_note">If more than 4 pages attachment, you can email us <b>support@surgician.com</b></p>
+      <ion-button (click)="presentActionSheet()" color="secondary"> Attach Report/Prescription &nbsp; <ion-badge color="success" *ngIf="attachmentImg.length > 0">{{attachmentImg.length}}</ion-badge></ion-button>
+      <input #userInput style="position: absolute; width: 0; height: 0; opacity: 0" multiple type="file" (change)="loadImageFromDevice1($event)" class="fileInput" accept="image/png, image/jpeg">
+      <!-- <ion-grid class="attach_grid">
         <ion-row>
           <ion-col *ngFor="let imgVal of attachmentImg; let index = index" col-6>
             <div class="attach_img_cont"><img src="data:image/jpeg;base64,{{imgVal}}"/></div>
@@ -81,23 +86,23 @@
             </div>
             </ion-col>
         </ion-row>
-        </ion-grid>
+        </ion-grid> -->
     </div>
   </div>
 
-  <ion-grid>
+  <!-- <ion-grid padding>
     <ion-row>
     <ion-col size="6" *ngFor="let photo of photoService.photos; index as position">
       <ion-img [src]="photo.webviewPath" (click)="showActionSheet(photo, position)"></ion-img>
     </ion-col>
     </ion-row>
-  </ion-grid>
+  </ion-grid> -->
 
-  <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+  <!-- <ion-fab vertical="bottom" horizontal="center" slot="fixed">
     <ion-fab-button (click)="photoService.addNewToGallery()">
       <ion-icon name="camera"></ion-icon>
     </ion-fab-button>
-  </ion-fab>
+  </ion-fab> -->
 </ion-content>
 
 <ion-footer no-border>

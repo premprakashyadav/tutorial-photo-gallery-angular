@@ -75,3 +75,21 @@
   --ion-color-light-shade: #d7d8da;
   --ion-color-light-tint: #f5f6f9;
 }
+
+.master-bg {
+  --color: white;
+  background: var(--ion-color-tertiary);
+  --background: -webkit-linear-gradient(to right, #653EE6, #7044ff);
+  --background: linear-gradient(to right, #653EE6, #7044ff);
+
+  ion-item {
+    margin: 10px 0;
+    border-radius: 8px;
+  }
+
+  ion-button {
+    height: 45px;
+    font-weight: 500;
+    border-radius: 8px;
+  }
+}
