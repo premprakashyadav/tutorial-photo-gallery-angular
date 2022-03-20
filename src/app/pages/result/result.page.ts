@@ -23,7 +23,6 @@ export class ResultPage implements OnInit {
   loadData() {
     this.providerSvc.getData("result_clinic.php")
       .subscribe(data => {
-        debugger;
         if (data != null) {
           this.itemsClinic = data;
           console.log(data);

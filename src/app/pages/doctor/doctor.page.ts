@@ -30,7 +30,7 @@ export class DoctorPage implements OnInit, AfterViewInit {
   patientEmail: any;
   patientName: any;
   doctorName: any;
-  prescription: any;
+  prescription = [];
   imgURL: string;
 
   itemsSpec: any;
@@ -49,14 +49,14 @@ export class DoctorPage implements OnInit, AfterViewInit {
     private actionSheetCtrl: ActionSheetController,
     private sharedDataProvider: SharedDataProvider,
     private ctrl: ControllersService,
-    public photoService: PhotoService ) { }
+    public photoService: PhotoService) { }
 
   async ngOnInit() {
     this.doctorID = this.activatedRoute.snapshot.params['did'];
     this.getData(this.doctorID);
     this.getRating();
 
-    Storage.get({key:'USER_INFO'}).then(data => {
+    Storage.get({ key: 'USER_INFO' }).then(data => {
       if (data && data.value != null) {
         const item = JSON.parse(data.value);
         this.patientID = item.patient_id;
@@ -68,7 +68,7 @@ export class DoctorPage implements OnInit, AfterViewInit {
     });
 
     this.minDate = this.datePipe.transform(Date.now(), 'yyyy-MM-dd');
-    
+
     await this.photoService.loadSaved();
   }
 
@@ -121,7 +121,7 @@ export class DoctorPage implements OnInit, AfterViewInit {
         role: 'cancel',
         handler: () => {
           // Nothing to do, action sheet is automatically closed
-         }
+        }
       }]
     });
     await actionSheet.present();
@@ -147,17 +147,17 @@ export class DoctorPage implements OnInit, AfterViewInit {
             fivecount++;
           } else if (this.rate == 4) {
             fourcount++;
-          } else if (this.rate == 3){
+          } else if (this.rate == 3) {
             threecount++;
-          } else if (this.rate == 2){
+          } else if (this.rate == 2) {
             twocount++;
-          } else if (this.rate == 1){
+          } else if (this.rate == 1) {
             onecount++;
           }
         }
-        
-        var roundTotal = (5*fivecount + 4*fourcount + 3* threecount + 2*twocount + 1*onecount) / this.countReviews;
-        this.totalReviewRate = Math.round( roundTotal * 10 ) / 10;
+
+        var roundTotal = (5 * fivecount + 4 * fourcount + 3 * threecount + 2 * twocount + 1 * onecount) / this.countReviews;
+        this.totalReviewRate = Math.round(roundTotal * 10) / 10;
       } else {
         console.log('No Data Available');
       }
@@ -222,7 +222,7 @@ export class DoctorPage implements OnInit, AfterViewInit {
 
     return await modal.present();
   }
-  
+
   async reviewModal() {
     const modal = await this.modalController.create({
       component: ReviewDetailsPage,
@@ -254,12 +254,12 @@ export class DoctorPage implements OnInit, AfterViewInit {
               this.userInputElement.click();
             }
           },
-          // {
-          //   text: 'Camera',
-          //   handler: () => {
-          //     this.opemcam()
-          //   }
-          // },
+          {
+            text: 'Camera',
+            handler: () => {
+              this.opemcam()
+            }
+          },
           {
             text: 'Cancel',
             role: 'cancel',
@@ -271,43 +271,54 @@ export class DoctorPage implements OnInit, AfterViewInit {
       });
       await actionSheet.present();
     }
-}
+  }
 
-loadImageFromDevice1(event) {
-  this.prescription = event.target.files;
-  console.log(event.target.files);
-  this.attachmentImg = this.prescription;
-  
-};
+  loadImageFromDevice1(event) {
+    this.prescription = event.target.files;
+    this.attachmentImg = this.prescription;
+    if (this.attachmentImg.length > 0) {
+      if (this.photoService.photos.length > 0) {
+        this.attachmentImg = [...this.attachmentImg, ...this.photoService.photos];
+        this.prescription = [...this.prescription, ...this.photoService.photos];
+      }
+    }
 
-ngAfterViewInit() {
-  setTimeout(() => {
-    this.userInputElement = this.userInputViewChild.nativeElement;
-}, 1000);
-};
+  };
 
-opemcam() {
-  this.photoService.addNewToGallery();
- // console.log(this.photoService.fileData);
-}
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.userInputElement = this.userInputViewChild.nativeElement;
+    }, 1000);
+  };
+
+  opemcam() {
+    this.photoService.addNewToGallery();
+    if (this.attachmentImg.length > 0) {
+      this.attachmentImg[0].push(...this.photoService.photos);
+      this.prescription[0].push(...this.photoService.photos);
+    } else {
+
+    }
+
+  }
 
 
-openPicker() {
-  // this.sharedDataProvider.openImagePicker(this.attachmentImg).then(data => {
-  //   if (data && data.length > 0) {
-  //     this.attachmentImg = data;
-  //   }
-  // })
-}
+  openPicker() {
+    // this.sharedDataProvider.openImagePicker(this.attachmentImg).then(data => {
+    //   if (data && data.length > 0) {
+    //     this.attachmentImg = data;
+    //   }
+    // })
+  }
 
-viewImg(i) {
-  // this.sharedDataProvider.viewImages('data:image/png;base64,' + i);
-}
+  viewImg(i) {
+    // this.sharedDataProvider.viewImages('data:image/png;base64,' + i);
+  }
 
-deleteImg(index) {
-  this.attachmentImg.splice(index, 1);
-}
-ionViewDidLeave() {
-  this.attachmentImg = null;
-}
+  deleteImg(index) {
+    this.attachmentImg.splice(index, 1);
+  }
+  ionViewDidLeave() {
+    this.attachmentImg = null;
+  }
 }

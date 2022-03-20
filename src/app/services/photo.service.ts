@@ -11,10 +11,11 @@ import { Platform } from '@ionic/angular';
   providedIn: 'root',
 })
 export class PhotoService {
-  public photos: UserPhoto[] = [];
+  public photos: any[] = [];
   private PHOTO_STORAGE: string = 'photos';
+  imageSize: any;
 
-  constructor(private platform: Platform) {}
+  constructor(private platform: Platform) { }
 
   public async loadSaved() {
     // Retrieve cached photo array data
@@ -68,10 +69,11 @@ export class PhotoService {
       quality: 60, // highest quality (0 to 100)
     });
 
-    const savedImageFile = await this.savePicture(capturedPhoto);
-
+    let savedImageFile: any = await this.savePicture(capturedPhoto);
+    const newSavedFile: any = new File([this.imageSize], savedImageFile.filepath, { type: "image/png", lastModified: new Date().getTime() });
+    debugger;
     // Add new photo to Photos array
-    this.photos.unshift(savedImageFile);
+    this.photos.unshift(newSavedFile);
 
     // Cache all photo data for future retrieval
     Storage.set({
@@ -86,13 +88,12 @@ export class PhotoService {
     const base64Data = await this.readAsBase64(cameraPhoto);
 
     // Write the file to the data directory
-    const fileName = new Date().getTime() + '.jpeg';
+    const fileName = new Date().getTime() + '.PNG';
     const savedFile = await Filesystem.writeFile({
       path: fileName,
       data: base64Data,
       directory: Directory.Data,
     });
-
     if (this.platform.is('hybrid')) {
       // Display the new image by rewriting the 'file://' path to HTTP
       // Details: https://ionicframework.com/docs/building/webview#file-protocol
@@ -123,6 +124,7 @@ export class PhotoService {
       // Fetch the photo, read as a blob, then convert to base64 format
       const response = await fetch(cameraPhoto.webPath!);
       const blob = await response.blob();
+      this.imageSize = blob;
       return (await this.convertBlobToBase64(blob)) as string;
     }
   }

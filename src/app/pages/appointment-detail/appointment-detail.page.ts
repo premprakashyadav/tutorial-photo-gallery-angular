@@ -66,7 +66,7 @@ export class AppointmentDetailPage implements OnInit {
     dataPost.append('inputEmail', this.patientEmail);
     dataPost.append('inputPatientName', this.patientName);
     dataPost.append('inputDoctorName', this.doctorName);
-   // dataPost.append('inputPrescription', this.prescription)
+   // dataPost.append('inputPrescription[]', this.prescription)
 
     this.providerSvc.postData("appointment.php", dataPost).subscribe(res => {
       this.ctrl.presentLoading();
