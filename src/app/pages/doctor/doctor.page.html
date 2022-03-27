@@ -1,0 +1,110 @@
+<ion-header no-border *ngFor="let item of items">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/clinic/{{item.doctor_id}}"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Doctor</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngFor="let item of items">
+  
+  <div class="profile-card">
+    <ion-row class="ion-text-center">
+      <ion-col size="5">
+        <ion-card>
+          <ion-img src="{{imgURL}}{{item.clinic_id}}/doctor/{{item.doctor_avatar}}">
+          </ion-img>
+        </ion-card>
+      </ion-col>
+      <ion-col class="profile-name">
+        <ion-text>
+          <h3 class="ion-no-margin">Dr. {{item.doctor_lastname}}<br>{{item.doctor_firstname}}</h3>
+          <p class="ion-no-margin">{{item.speciality_name}}</p>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+  </div>
+
+  <div class="ion-padding-horizontal">
+    <ion-row class="doctor-info">
+      <ion-col>
+        <small>Consultation Fees</small>
+        <h6>Rs. {{item.consult_fee}}</h6>
+      </ion-col>
+      <ion-col (click)="reviewModal()">
+        <small>Reviews</small>
+        <h6 *ngIf="countReviews == 0">0.0</h6>
+        <h6 *ngIf="countReviews > 0">{{totalReviewRate}}</h6>
+      </ion-col>
+    </ion-row>
+    
+    <h6 class="section-title"><b>Description</b></h6>
+    <ion-text class="ion-text-justify clinic-desc">
+      <p>{{item.doctor_desc}}</p>
+    </ion-text>
+  </div>
+
+  <ion-text class="ion-text-justify doctor-details">
+    <ion-list lines="none">
+      <ion-item>
+        <ion-badge color="dark" class="details-title">Langauge Spoke</ion-badge>
+        <ion-label>{{item.doctor_spoke}}</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-text>
+
+  <div class="booking-wrap">
+    <h6 class="section-title ion-padding-horizontal"><b>Select Date and Time</b></h6>
+    <div class="date-picker">
+      <ion-datetime (ionBlur)="DateSlotChange($event)" (ionChange)="DateSlotChange($event)" displayFormat="DD MMM YYYY" min="{{minDate}}" pickerFormat="DD MMM YYYY" placeholder="DD MMM YYYY"></ion-datetime>
+    </div>
+    <div class="select-timeslot ion-padding-horizontal">
+      <!-- <ion-segment (ionChange)="TimeSlotChange($event)" *ngFor="let itemSch of itemsSchedule">
+        <ion-segment-button value="{{itemSch.time_slot}}">
+          <ion-label>{{itemSch.time_slot}}</ion-label>
+        </ion-segment-button>
+      </ion-segment> -->
+      <ion-item>
+        <ion-label>Available Time Slot</ion-label>
+        <ion-select (ionChange)="TimeSlotChange($event)">
+          <ion-select-option *ngFor="let itemSch of itemsSchedule" [value]="itemSch.time_slot">{{itemSch.time_slot}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </div>
+    <div class="attachment">
+      <p class="attach_note">If more than 4 pages attachment, you can email us <b>support@surgician.com</b></p>
+      <ion-button (click)="presentActionSheet()" color="secondary"> Attach Report/Prescription &nbsp; <ion-badge color="success" *ngIf="attachmentImg.length > 0 || photoService.photos.length > 0">{{attachmentImg.length}} + {{photoService.photos.length}}</ion-badge></ion-button>
+      <input #userInput style="position: absolute; width: 0; height: 0; opacity: 0" multiple type="file" (change)="loadImageFromDevice1($event)" class="fileInput" accept="image/png, image/jpeg">
+      <!-- <ion-grid class="attach_grid">
+        <ion-row>
+          <ion-col *ngFor="let imgVal of attachmentImg; let index = index" col-6>
+            <div class="attach_img_cont"><img src="data:image/jpeg;base64,{{imgVal}}"/></div>
+            <div class="attach_img_btns">
+                <ion-button color="secondary" (click)="viewImg(imgVal)"><ion-icon name="ios-expand-outline"></ion-icon></ion-button>
+                <ion-button color="danger" (click)="deleteImg(index)"><ion-icon name="ios-trash"></ion-icon></ion-button>
+            </div>
+            </ion-col>
+        </ion-row>
+        </ion-grid> -->
+    </div>
+  </div>
+
+  <!-- <ion-grid padding>
+    <ion-row>
+    <ion-col size="6" *ngFor="let photo of photoService.photos; index as position">
+      <ion-img [src]="photo.webviewPath" (click)="showActionSheet(photo, position)"></ion-img>
+    </ion-col>
+    </ion-row>
+  </ion-grid> -->
+
+  <!-- <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+    <ion-fab-button (click)="photoService.addNewToGallery()">
+      <ion-icon name="camera"></ion-icon>
+    </ion-fab-button>
+  </ion-fab> -->
+</ion-content>
+
+<ion-footer no-border>
+  <ion-button expand="block" color="tertiary" (click)="Book()">Proceed</ion-button>
+</ion-footer>

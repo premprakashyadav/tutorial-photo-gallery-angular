@@ -11,15 +11,17 @@ import { Platform } from '@ionic/angular';
   providedIn: 'root',
 })
 export class PhotoService {
-  public photos: UserPhoto[] = [];
+  public photos: any[] = [];
   private PHOTO_STORAGE: string = 'photos';
+  imageSize: any;
 
-  constructor(private platform: Platform) {}
+  constructor(private platform: Platform) { }
 
   public async loadSaved() {
     // Retrieve cached photo array data
-    const photoList = await Storage.get({ key: this.PHOTO_STORAGE });
-    this.photos = JSON.parse(photoList.value) || [];
+   // const photoList = await Storage.get({ key: this.PHOTO_STORAGE });
+    this.photos = [];
+    //JSON.parse(photoList.value) || [];
 
     // If running on the web...
     if (!this.platform.is('hybrid')) {
@@ -47,23 +49,38 @@ export class PhotoService {
   // https://capacitor.ionicframework.com/docs/apis/storage
   */
   public async addNewToGallery() {
+    // Camera.checkPermissions().then((data) => {
+    //   console.log('check ' + data);
+    //   alert(data.photos);
+    //   if(data.photos !== 'granted') {
+    //   Camera.requestPermissions().then((subdata) => {
+    //     console.log('request ' + subdata);
+    //     alert(subdata.photos);
+    //   }).catch((suberr) => {
+    //     console.log('request error ' + suberr);
+    //   })
+    // }
+    // }).catch((err) => {
+    //   console.log('check error ' + err);
+    // });
     // Take a photo
     const capturedPhoto = await Camera.getPhoto({
       resultType: CameraResultType.Uri, // file-based data; provides best performance
       source: CameraSource.Camera, // automatically take a new photo with the camera
-      quality: 100, // highest quality (0 to 100)
+      quality: 60, // highest quality (0 to 100)
     });
 
-    const savedImageFile = await this.savePicture(capturedPhoto);
-
+    let savedImageFile: any = await this.savePicture(capturedPhoto);
+    const newSavedFile: any = new File([this.imageSize], savedImageFile.filepath, { type: "image/png", lastModified: new Date().getTime() });
     // Add new photo to Photos array
-    this.photos.unshift(savedImageFile);
+    this.photos.unshift(newSavedFile);
 
     // Cache all photo data for future retrieval
-    Storage.set({
-      key: this.PHOTO_STORAGE,
-      value: JSON.stringify(this.photos),
-    });
+    // debugger;
+    // Storage.set({
+    //   key: this.PHOTO_STORAGE,
+    //   value: JSON.stringify(this.photos),
+    // });
   }
 
   // Save picture to file on device
@@ -72,13 +89,12 @@ export class PhotoService {
     const base64Data = await this.readAsBase64(cameraPhoto);
 
     // Write the file to the data directory
-    const fileName = new Date().getTime() + '.jpeg';
+    const fileName = new Date().getTime() + '.PNG';
     const savedFile = await Filesystem.writeFile({
       path: fileName,
       data: base64Data,
       directory: Directory.Data,
     });
-
     if (this.platform.is('hybrid')) {
       // Display the new image by rewriting the 'file://' path to HTTP
       // Details: https://ionicframework.com/docs/building/webview#file-protocol
@@ -101,16 +117,15 @@ export class PhotoService {
     // "hybrid" will detect Cordova or Capacitor
     if (this.platform.is('hybrid')) {
       // Read the file into base64 format
-      const file = await Filesystem.readFile({
+      const file: any = await Filesystem.readFile({
         path: cameraPhoto.path,
       });
-
       return file.data;
     } else {
       // Fetch the photo, read as a blob, then convert to base64 format
       const response = await fetch(cameraPhoto.webPath!);
       const blob = await response.blob();
-
+      this.imageSize = blob;
       return (await this.convertBlobToBase64(blob)) as string;
     }
   }
@@ -121,10 +136,10 @@ export class PhotoService {
     this.photos.splice(position, 1);
 
     // Update photos array cache by overwriting the existing photo array
-    Storage.set({
-      key: this.PHOTO_STORAGE,
-      value: JSON.stringify(this.photos),
-    });
+    // Storage.set({
+    //   key: this.PHOTO_STORAGE,
+    //   value: JSON.stringify(this.photos),
+    // });
 
     // delete photo file from filesystem
     const filename = photo.filepath.substr(photo.filepath.lastIndexOf('/') + 1);

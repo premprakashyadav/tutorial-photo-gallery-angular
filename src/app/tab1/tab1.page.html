@@ -1,17 +1,26 @@
-<ion-header>
+<ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 1
+      Ionic Image Picker Integration Demo  
     </ion-title>
   </ion-toolbar>
 </ion-header>
-
-<ion-content>
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+<ion-content [fullscreen]="true">
+  <ion-grid>
+    <ion-row>
+      <ion-col text-center>
+        <ion-input type="file" multiple="true" accept="image/*" id="upload" [(ngModel)]="imageFilePath" (ionChange)="imageFilePath_change($event)"></ion-input>
+        <!-- <ion-button (click)="imagePicker()">Select Images</ion-button> -->
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <div class="images-wrapper">
+          <div class="pick-single-image" *ngFor="let image of imgRes">
+            <img src="{{image}}" alt="" srcset="">
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

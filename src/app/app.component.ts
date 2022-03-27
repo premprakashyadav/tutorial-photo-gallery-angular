@@ -1,22 +1,34 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { SplashScreen } from '@capacitor/splash-screen'
+import { Platform } from '@ionic/angular';
+import { AuthenticationService } from './services/authentication.service';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
-  constructor() {
+  constructor(
+    private platform: Platform,
+    private router:Router,
+    private authenticateService:AuthenticationService,
+  ) {
     this.initializeApp();
   }
 
   initializeApp() {
-    /* To make sure we provide the fastest app loading experience
-       for our users, hide the splash screen automatically
-       when the app is ready to be used:
+    this.platform.ready().then(() => {
+      SplashScreen.hide();
 
-        https://capacitor.ionicframework.com/docs/apis/splash-screen#hiding-the-splash-screen
-    */
-    SplashScreen.hide();
+      this.authenticateService.authenticationState.subscribe(state => {
+        if(state) {
+          this.router.navigate(['tabs/home']);
+        } else {
+          this.router.navigate(['login']);
+        }
+      })
+
+    });
   }
 }
