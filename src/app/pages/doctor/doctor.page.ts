@@ -211,7 +211,7 @@ export class DoctorPage implements OnInit, AfterViewInit {
         patientEmail: this.patientEmail,
         patientName: this.patientName,
         doctorName: this.doctorName,
-        prescription: this.prescription
+        prescription: [...this.prescription, ...this.photoService.photos]
       }
     });
     modal.onDidDismiss().then(dataReturned => {
@@ -293,10 +293,10 @@ export class DoctorPage implements OnInit, AfterViewInit {
 
   opemcam() {
     this.photoService.addNewToGallery();
-    if (this.attachmentImg.length > 0) {
-      this.attachmentImg[0].push(...this.photoService.photos);
-      this.prescription[0].push(...this.photoService.photos);
-    } else {
+    if (this.photoService.photos.length > 0) {
+      debugger;
+      this.attachmentImg = [...this.attachmentImg, ...this.photoService.photos];
+      this.prescription = [...this.prescription, ...this.photoService.photos];
 
     }
 

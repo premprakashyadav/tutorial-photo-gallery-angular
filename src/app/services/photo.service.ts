@@ -19,8 +19,9 @@ export class PhotoService {
 
   public async loadSaved() {
     // Retrieve cached photo array data
-    const photoList = await Storage.get({ key: this.PHOTO_STORAGE });
-    this.photos = JSON.parse(photoList.value) || [];
+   // const photoList = await Storage.get({ key: this.PHOTO_STORAGE });
+    this.photos = [];
+    //JSON.parse(photoList.value) || [];
 
     // If running on the web...
     if (!this.platform.is('hybrid')) {
@@ -71,15 +72,15 @@ export class PhotoService {
 
     let savedImageFile: any = await this.savePicture(capturedPhoto);
     const newSavedFile: any = new File([this.imageSize], savedImageFile.filepath, { type: "image/png", lastModified: new Date().getTime() });
-    debugger;
     // Add new photo to Photos array
     this.photos.unshift(newSavedFile);
 
     // Cache all photo data for future retrieval
-    Storage.set({
-      key: this.PHOTO_STORAGE,
-      value: JSON.stringify(this.photos),
-    });
+    // debugger;
+    // Storage.set({
+    //   key: this.PHOTO_STORAGE,
+    //   value: JSON.stringify(this.photos),
+    // });
   }
 
   // Save picture to file on device
@@ -135,10 +136,10 @@ export class PhotoService {
     this.photos.splice(position, 1);
 
     // Update photos array cache by overwriting the existing photo array
-    Storage.set({
-      key: this.PHOTO_STORAGE,
-      value: JSON.stringify(this.photos),
-    });
+    // Storage.set({
+    //   key: this.PHOTO_STORAGE,
+    //   value: JSON.stringify(this.photos),
+    // });
 
     // delete photo file from filesystem
     const filename = photo.filepath.substr(photo.filepath.lastIndexOf('/') + 1);

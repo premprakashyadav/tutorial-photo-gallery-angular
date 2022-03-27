@@ -68,13 +68,16 @@ export class AppointmentDetailPage implements OnInit {
     dataPost.append('inputDoctorName', this.doctorName);
    // dataPost.append('inputPrescription[]', this.prescription)
 
-    this.providerSvc.postData("appointment.php", dataPost).subscribe(res => {
+    this.providerSvc.postData("appointment.php", dataPost).subscribe((res) => {
+      if(res) {
       this.ctrl.presentLoading();
       this.presentToast();
-    }, error => {
-      this.errorAlert();
-      console.log(error);
-    });
+    }
+    // (error) => {
+    //   this.errorAlert(error);
+    //   console.log(error);
+    // }
+  });
   }
 
   async closeModal() {
@@ -106,10 +109,10 @@ export class AppointmentDetailPage implements OnInit {
     toast.present();
   }
 
-  async errorAlert() {
+  async errorAlert(err) {
     const alert = await this.alertController.create({
       header: 'Alert',
-      message: 'Network Offline.',
+      message: err.message,
       buttons: ['OK']
     });
 
