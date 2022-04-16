@@ -11,42 +11,38 @@
   <small>*Hospital use only</small>
   <div class="ion-padding-horizontal">
     <ion-item>
-      <ion-input type="text" placeholder="Hospital's Name & address"></ion-input>
+      <ion-input type="text" [(ngModel)]="hospitalName" placeholder="Hospital's Name & address"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input type="text" placeholder="Patient's Name"></ion-input>
+      <ion-input type="text" [(ngModel)]="patientName" placeholder="Patient's Name"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input type="number" placeholder="Patient's Mobile No."></ion-input>
+      <ion-input type="number" [(ngModel)]="patientContact" placeholder="Patient's Mobile No."></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input type="text" placeholder="Consulting Doctor's Name"></ion-input>
+      <ion-input type="text" [(ngModel)]="consultDocName" placeholder="Consulting Doctor's Name"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input type="text" placeholder="Consulting Doctor's Mobile No."></ion-input>
+      <ion-input type="text" [(ngModel)]="consultDocContact" placeholder="Consulting Doctor's Mobile No."></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input type="text" placeholder="Reference Doctor's Name"></ion-input>
+      <ion-input type="text" [(ngModel)]="refDocName" placeholder="Reference Doctor's Name"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input type="text" placeholder="Reference Doctor's Mobile No."></ion-input>
+      <ion-input type="text" [(ngModel)]="refDocContact" placeholder="Reference Doctor's Mobile No."></ion-input>
     </ion-item>
     <ion-item>
-      <ion-textarea rows="6" cols="20" autoGrow="true"
+      <ion-textarea rows="6" cols="20" autoGrow="true" [(ngModel)]="message"
         placeholder="Help us if describe more (Consulting Doctor's mobile No., Hospital's contact No.(if possible) also Mention in short patient's problems etc...)">
       </ion-textarea>
     </ion-item>
   </div>
 
   <div class="booking-wrap">
-    <div class="select-timeslot ion-padding-horizontal">
-
-    </div>
     <div class="attachment">
       <p class="attach_note">If more than 4 pages attachment, you can email us <b>support@surgician.com</b></p>
       <ion-button (click)="presentActionSheet()" color="secondary"> Attach Report/Prescription &nbsp; <ion-badge
-          color="success" *ngIf="attachmentImg.length > 0 || photoService.photos.length > 0">{{attachmentImg.length}} +
-          {{photoService.photos.length}}</ion-badge>
+          color="success" *ngIf="attachmentImg.length > 0 || photoService.photos.length > 0">{{attachmentImg.length + photoService.photos.length}}</ion-badge>
       </ion-button>
       <input #userInput style="position: absolute; width: 0; height: 0; opacity: 0" multiple type="file"
         (change)="loadImageFromDevice1($event)" class="fileInput" accept="image/png, image/jpeg">

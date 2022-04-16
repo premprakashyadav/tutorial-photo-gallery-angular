@@ -1,10 +1,12 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { ToastController, ActionSheetController } from '@ionic/angular';
+import { ToastController, ActionSheetController, AlertController, ModalController } from '@ionic/angular';
 import { UserPhoto, PhotoService } from '../../services/photo.service';
 import { ControllersService } from '../../services/controllers.service';
 import { ConstantData } from '../../../assets/constant';
+import { ProviderService } from '../../services/provider.service';
+import { Storage } from '@capacitor/storage';
 
 @Component({
   selector: 'app-hospital',
@@ -16,27 +18,54 @@ export class HospitalPage implements OnInit {
   userInputElement: HTMLInputElement;
   items: any;
   itemList: any;
-  doctorID: any;
-  clinicID: any;
-  doctorName: any;
   prescription = [];
   imgURL: string;
-  itemsSpec: any;
-  minDate: string;
   attachmentImg = [];
-  equipment = [];
+  inputFormName = 'Hospital';
+  patname;
+  patcontact;
+  lab_test;
+  hospitalName;
+  patientName;
+  patientContact;
+  consultDocName;
+  consultDocContact;
+  refDocName;
+  refDocContact;
+  message;
+  attachment;
+  email;
+  doctorID: any;
+  inputPatientEmail: string | Blob;
 
   constructor(public activatedRoute: ActivatedRoute,
     private toastCtrl: ToastController,
     private actionSheetCtrl: ActionSheetController,
     private ctrl: ControllersService,
     public photoService: PhotoService,
-    public constantData: ConstantData) { }
+    public constantData: ConstantData,
+    private modalController: ModalController,
+    private providerSvc: ProviderService,
+    public alertController: AlertController,
+    private router: Router) { }
 
   async ngOnInit() {
     this.doctorID = this.activatedRoute.snapshot.params['did'];
-    this.itemList = this.constantData.homeCareData;
-    this.equipment = ['Yes', 'No'];
+    this.itemList = this.constantData.healthCheckData;
+    this.getData();
+  }
+
+  getData() {
+    Storage.get({key: 'USER_INFO'}).then(data => {
+      if(data && data.value != null) {
+        this.items = JSON.parse(data.value);
+        this.patname = this.items.patient_firstname;
+        this.patcontact = this.items.patient_contact;
+        this.email = this.items.patient_email;
+      }
+    }, error => {
+      console.log(error);
+    });
   }
 
 
@@ -62,30 +91,72 @@ export class HospitalPage implements OnInit {
     await actionSheet.present();
   }
 
-  selectedItem: string;
-
   itemChange($event) {
-    this.selectedItem = $event.target.value;
-    console.log(this.selectedItem);
+    console.log($event);
+    this.lab_test = $event.target.value;
   }
 
-  equipmentItem: string;
-
-  equipmentChange($event) {
-    this.equipmentItem = $event.target.value;
-    console.log(this.equipmentItem);
-  }
-
-
-  selectedDate: string;
 
   Book() {
-    if (this.selectedDate != null && this.selectedItem != null) {
-    } else {
-      this.ctrl.alertPopUp("Attention", "Please select date & time", "OK");
-    }
-  }
+    let dataPost = new FormData();
+    Array.from(this.prescription)
+    .forEach((file: File) => dataPost.append('attachment[]', file));
+    dataPost.append('inputFormName', this.inputFormName);
+    dataPost.append('hospitalName', this.hospitalName);
+    dataPost.append('patientName', this.patientName);
+    dataPost.append('patientContact', this.patientContact);
+    dataPost.append('consultDocName', this.consultDocName);
+    dataPost.append('consultDocContact', this.consultDocContact);
+    dataPost.append('refDocName', this.refDocName);
+    dataPost.append('refDocContact', this.refDocContact);
+    dataPost.append('inputPatientEmail', this.email);
+    dataPost.append('message', this.message);
 
+    this.providerSvc.postData("appointment_hospital.php", dataPost).subscribe(async (res: any) => {
+      if(res) {
+      this.ctrl.presentLoading();
+      this.presentToast();
+    }
+    (error) => {
+      this.errorAlert(error);
+      console.log(error);
+    }
+  });
+}
+
+async errorAlert(err) {
+  const alert = await this.alertController.create({
+    header: 'Alert',
+    message: err.message,
+    buttons: ['OK']
+  });
+
+  await alert.present();
+}
+
+async presentToast() {
+  const toast = await this.toastCtrl.create({
+    header: 'Booked Succesful',
+    position: 'top',
+    buttons: [
+      {
+        side: 'start',
+        icon: 'checkmark-circle-outline',
+        text: 'Booked!',
+        handler: () => {
+          this.router.navigate(['/tabs/appointment']);
+        }
+      }, {
+        text: 'Done',
+        role: 'cancel',
+        handler: () => {
+          this.router.navigate(['/tabs/home']);
+        }
+      }
+    ]
+  });
+  toast.present();
+}
 
   async presentActionSheet() {
     if (this.attachmentImg && this.attachmentImg.length >= 8) {

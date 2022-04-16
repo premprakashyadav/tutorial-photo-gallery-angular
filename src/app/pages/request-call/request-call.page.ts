@@ -1,10 +1,12 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { ToastController, ActionSheetController } from '@ionic/angular';
+import { ToastController, ActionSheetController, AlertController, ModalController } from '@ionic/angular';
 import { UserPhoto, PhotoService } from '../../services/photo.service';
 import { ControllersService } from '../../services/controllers.service';
 import { ConstantData } from '../../../assets/constant';
+import { ProviderService } from '../../services/provider.service';
+import { Storage } from '@capacitor/storage';
 
 @Component({
   selector: 'app-request-call',
@@ -16,25 +18,47 @@ export class RequestCallPage implements OnInit {
   userInputElement: HTMLInputElement;
   items: any;
   itemList: any;
-  doctorID: any;
-  clinicID: any;
-  doctorName: any;
   prescription = [];
   imgURL: string;
-  itemsSpec: any;
-  minDate: string;
   attachmentImg = [];
-  equipment = [];
+  inputFormName = 'Request a Call';
+  patname;
+  patcontact;
+  lab_test;
+  message;
+  attachment;
+  email;
+  doctorID: any;
+  inputPatientEmail: string | Blob;
 
   constructor(public activatedRoute: ActivatedRoute,
     private toastCtrl: ToastController,
     private actionSheetCtrl: ActionSheetController,
     private ctrl: ControllersService,
     public photoService: PhotoService,
-    public constantData: ConstantData) { }
+    public constantData: ConstantData,
+    private modalController: ModalController,
+    private providerSvc: ProviderService,
+    public alertController: AlertController,
+    private router: Router) { }
 
   async ngOnInit() {
     this.doctorID = this.activatedRoute.snapshot.params['did'];
+    this.itemList = this.constantData.healthCheckData;
+    this.getData();
+  }
+
+  getData() {
+    Storage.get({key: 'USER_INFO'}).then(data => {
+      if(data && data.value != null) {
+        this.items = JSON.parse(data.value);
+        this.patname = this.items.patient_firstname;
+        this.patcontact = this.items.patient_contact;
+        this.email = this.items.patient_email;
+      }
+    }, error => {
+      console.log(error);
+    });
   }
 
 
@@ -60,10 +84,68 @@ export class RequestCallPage implements OnInit {
     await actionSheet.present();
   }
 
-
-  Book() {
+  itemChange($event) {
+    console.log($event);
+    this.lab_test = $event.target.value;
   }
 
+
+  Book() {
+    let dataPost = new FormData();
+    Array.from(this.prescription)
+    .forEach((file: File) => dataPost.append('attachment[]', file));
+    dataPost.append('inputFormName', this.inputFormName);
+    dataPost.append('inputPatientName', this.patname);
+    dataPost.append('inputPatientContact', this.patcontact);
+    dataPost.append('lab_test', this.lab_test);
+    dataPost.append('inputPatientEmail', this.email);
+    dataPost.append('message', this.message);
+
+    this.providerSvc.postData("appointment_two.php", dataPost).subscribe(async (res: any) => {
+      if(res) {
+      this.ctrl.presentLoading();
+      this.presentToast();
+    }
+    (error) => {
+      this.errorAlert(error);
+      console.log(error);
+    }
+  });
+}
+
+async errorAlert(err) {
+  const alert = await this.alertController.create({
+    header: 'Alert',
+    message: err.message,
+    buttons: ['OK']
+  });
+
+  await alert.present();
+}
+
+async presentToast() {
+  const toast = await this.toastCtrl.create({
+    header: 'Booked Succesful',
+    position: 'top',
+    buttons: [
+      {
+        side: 'start',
+        icon: 'checkmark-circle-outline',
+        text: 'Booked!',
+        handler: () => {
+          this.router.navigate(['/tabs/appointment']);
+        }
+      }, {
+        text: 'Done',
+        role: 'cancel',
+        handler: () => {
+          this.router.navigate(['/tabs/home']);
+        }
+      }
+    ]
+  });
+  toast.present();
+}
 
   async presentActionSheet() {
     if (this.attachmentImg && this.attachmentImg.length >= 8) {
