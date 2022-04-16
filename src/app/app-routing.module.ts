@@ -108,7 +108,76 @@ const routes: Routes = [
   {
     path: 'search',
     loadChildren: () => import('./pages/search/search.module').then( m => m.SearchPageModule)
+  },
+  {
+    path: 'visitor',
+    loadChildren: () => import('./pages/visitor/visitor.module').then( m => m.VisitorPageModule)
+  },  {
+    path: 'home-service',
+    loadChildren: () => import('./pages/home-service/home-service.module').then( m => m.HomeServicePageModule)
+  },
+  {
+    path: 'post-offer',
+    loadChildren: () => import('./pages/post-offer/post-offer.module').then( m => m.PostOfferPageModule)
+  },
+  {
+    path: 'one-click',
+    loadChildren: () => import('./pages/one-click/one-click.module').then( m => m.OneClickPageModule)
+  },
+  {
+    path: 'health-check-up',
+    loadChildren: () => import('./pages/health-check-up/health-check-up.module').then( m => m.HealthCheckUpPageModule)
+  },
+  {
+    path: 'request-call',
+    loadChildren: () => import('./pages/request-call/request-call.module').then( m => m.RequestCallPageModule)
+  },
+  {
+    path: 'second-openion',
+    loadChildren: () => import('./pages/second-openion/second-openion.module').then( m => m.SecondOpenionPageModule)
+  },
+  {
+    path: 'online-appointment',
+    loadChildren: () => import('./pages/online-appointment/online-appointment.module').then( m => m.OnlineAppointmentPageModule)
+  },
+  {
+    path: 'any-other',
+    loadChildren: () => import('./pages/any-other/any-other.module').then( m => m.AnyOtherPageModule)
+  },
+  {
+    path: 'partner',
+    loadChildren: () => import('./pages/partner/partner.module').then( m => m.PartnerPageModule)
+  },
+  {
+    path: 'hospital',
+    loadChildren: () => import('./pages/hospital/hospital.module').then( m => m.HospitalPageModule)
+  },
+  {
+    path: 'homehealthcare',
+    loadChildren: () => import('./pages/homehealthcare/homehealthcare.module').then( m => m.HomehealthcarePageModule)
+  },
+  {
+    path: 'medical-records',
+    loadChildren: () => import('./pages/medical-records/medical-records.module').then( m => m.MedicalRecordsPageModule)
+  },
+  {
+    path: 'makeapayment',
+    loadChildren: () => import('./pages/makeapayment/makeapayment.module').then( m => m.MakeapaymentPageModule)
+  },
+  {
+    path: 'online-pharmacy',
+    loadChildren: () => import('./pages/online-pharmacy/online-pharmacy.module').then( m => m.OnlinePharmacyPageModule)
+  },
+  {
+    path: 'health-buddy',
+    loadChildren: () => import('./pages/health-buddy/health-buddy.module').then( m => m.HealthBuddyPageModule)
+  },
+  {
+    path: 'medicalreports',
+    loadChildren: () => import('./pages/medicalreports/medicalreports.module').then( m => m.MedicalreportsPageModule)
   }
+
+
 ];
 
 @NgModule({

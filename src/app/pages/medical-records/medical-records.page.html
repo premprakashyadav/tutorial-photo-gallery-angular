@@ -1,0 +1,32 @@
+<ion-header no-border>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/profile"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Medical Records</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding-horizontal">
+  <div class="ion-padding-horizontal">
+    <ion-item>
+      <ion-textarea rows="6" cols="20" autoGrow="true" [(ngModel)]="message"
+        placeholder="Comments if any (Patient's Name & Mobile No., Doctor's Name & Mobile No. & Mention in short patient's problems etc...)">
+      </ion-textarea>
+    </ion-item>
+  </div>
+
+  <div class="booking-wrap">
+    <div class="attachment">
+      <p class="attach_note">If more than 4 pages attachment, you can email us <b>support@surgician.com</b></p>
+      <ion-button (click)="presentActionSheet()" color="secondary"> Attach Report/Prescription &nbsp; <ion-badge
+          color="success" *ngIf="attachmentImg.length > 0 || photoService.photos.length > 0">{{attachmentImg.length + photoService.photos.length}}</ion-badge>
+      </ion-button>
+      <input #userInput style="position: absolute; width: 0; height: 0; opacity: 0" multiple type="file"
+        (change)="loadImageFromDevice1($event)" class="fileInput" accept="image/png, image/jpeg">
+    </div>
+  </div>
+</ion-content>
+<ion-footer no-border>
+  <ion-button expand="block" color="tertiary" (click)="Book()">Submit</ion-button>
+</ion-footer>
