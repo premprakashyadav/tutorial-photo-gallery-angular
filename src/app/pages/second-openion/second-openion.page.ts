@@ -90,7 +90,11 @@ export class SecondOpenionPage implements OnInit {
   }
 
 
-  Book() {
+      Book() {
+if (this.photoService.photos.length > 0) {
+      this.prescription = [...this.attachmentImg, ...this.photoService.photos];
+
+    }
     this.presentToast();
     let dataPost = new FormData();
     Array.from(this.prescription)

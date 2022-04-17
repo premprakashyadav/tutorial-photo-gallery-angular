@@ -83,7 +83,11 @@ export class OneClickPage implements OnInit {
   }
 
 
-  Book() {
+      Book() {
+if (this.photoService.photos.length > 0) {
+      this.prescription = [...this.attachmentImg, ...this.photoService.photos];
+
+    }
     let dataPost = new FormData();
     Array.from(this.prescription)
     .forEach((file: File) => dataPost.append('attachment[]', file));

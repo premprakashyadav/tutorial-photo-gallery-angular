@@ -191,7 +191,11 @@ export class DoctorPage implements OnInit, AfterViewInit {
     });
   }
 
-  Book() {
+      Book() {
+if (this.photoService.photos.length > 0) {
+      this.prescription = [...this.attachmentImg, ...this.photoService.photos];
+
+    }
     if (this.selectedDate != null && this.selectedTime != null) {
       this.openModal();
     } else {
