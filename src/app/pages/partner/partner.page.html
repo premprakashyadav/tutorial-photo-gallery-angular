@@ -13,10 +13,10 @@
       <ion-input type="text" [(ngModel)]="orgName" placeholder="organization Name"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input type="number" [(ngModel)]="personName" placeholder="Person Name"></ion-input>
+      <ion-input type="text" [(ngModel)]="personName" placeholder="Person Name"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input type="text" [(ngModel)]="personContact" placeholder="Person contact no."></ion-input>
+      <ion-input type="number" [(ngModel)]="personContact" placeholder="Person contact no."></ion-input>
     </ion-item>
     <ion-item>
       <ion-textarea rows="6" cols="20" autoGrow="true" [(ngModel)]="message"
@@ -37,5 +37,5 @@
   </div>
 </ion-content>
 <ion-footer no-border>
-  <ion-button expand="block" color="tertiary">Submit</ion-button>
+  <ion-button expand="block" color="tertiary" (click)="Book()">Submit</ion-button>
 </ion-footer>

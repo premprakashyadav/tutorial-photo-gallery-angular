@@ -91,7 +91,6 @@ export class VisitorPage implements OnInit {
 
 
   Book() {
-    this.presentToast();
     let dataPost = new FormData();
     Array.from(this.prescription)
     .forEach((file: File) => dataPost.append('attachment[]', file));

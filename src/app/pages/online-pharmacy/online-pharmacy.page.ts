@@ -21,7 +21,7 @@ export class OnlinePharmacyPage implements OnInit {
   prescription = [];
   imgURL: string;
   attachmentImg = [];
-  inputFormName = 'Online Pharmacy';
+  inputFormName = 'Visit lab for Diagonstics';
   patname;
   patcontact;
   lab_test;
@@ -97,11 +97,10 @@ export class OnlinePharmacyPage implements OnInit {
     dataPost.append('inputFormName', this.inputFormName);
     dataPost.append('inputPatientName', this.patname);
     dataPost.append('inputPatientContact', this.patcontact);
-    dataPost.append('lab_test', this.lab_test);
     dataPost.append('inputPatientEmail', this.email);
     dataPost.append('message', this.message);
 
-    this.providerSvc.postData("appointment_two.php", dataPost).subscribe(async (res: any) => {
+    this.providerSvc.postData("appointment_single.php", dataPost).subscribe(async (res: any) => {
       if(res) {
       this.ctrl.presentLoading();
       this.presentToast();
