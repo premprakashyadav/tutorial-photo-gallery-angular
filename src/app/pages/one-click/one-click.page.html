@@ -10,13 +10,13 @@
 <ion-content class="ion-padding-horizontal">
   <div class="ion-padding-horizontal">
     <ion-item>
-      <ion-input type="text" placeholder="Patient's Name"></ion-input>
+      <ion-input type="text" [(ngModel)]="patientName" placeholder="Patient Name"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input type="number" placeholder="Patient's Contact No."></ion-input>
+      <ion-input type="number" [(ngModel)]="patientContact" placeholder="Patient contact no."></ion-input>
     </ion-item>
     <ion-item>
-      <ion-textarea rows="6" cols="20" autoGrow="true"
+      <ion-textarea rows="6" cols="20" autoGrow="true" [(ngModel)]="message"
         placeholder="Help us if describe more about patient's problems or any medications">
       </ion-textarea>
     </ion-item>
@@ -26,8 +26,7 @@
     <div class="attachment">
       <p class="attach_note">If more than 4 pages attachment, you can email us <b>support@surgician.com</b></p>
       <ion-button (click)="presentActionSheet()" color="secondary"> Attach Report/Prescription &nbsp; <ion-badge
-          color="success" *ngIf="attachmentImg.length > 0 || photoService.photos.length > 0">{{attachmentImg.length}} +
-          {{photoService.photos.length}}</ion-badge>
+          color="success" *ngIf="attachmentImg.length > 0 || photoService.photos.length > 0">{{attachmentImg.length + photoService.photos.length}}</ion-badge>
       </ion-button>
       <input #userInput style="position: absolute; width: 0; height: 0; opacity: 0" multiple type="file"
         (change)="loadImageFromDevice1($event)" class="fileInput" accept="image/png, image/jpeg">
@@ -35,5 +34,5 @@
   </div>
 </ion-content>
 <ion-footer no-border>
-  <ion-button expand="block" color="tertiary" (click)="Book()">Submit</ion-button>
+  <ion-button expand="block" color="tertiary">Submit</ion-button>
 </ion-footer>
