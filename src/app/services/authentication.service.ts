@@ -45,7 +45,6 @@ export class AuthenticationService {
     let data: Observable<any> = this.http.post(url, dataPost);
 
     data.subscribe(res => {
-      debugger;
       if (res[0] == 0) {
         this.loadingSvc.dismissLoading();
         this.alertPopUp("Attention", "Email & Password Incorrect!", "Try Again");

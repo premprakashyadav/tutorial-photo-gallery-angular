@@ -22,5 +22,9 @@
 	{
 		"pkg": "@capacitor/storage",
 		"classpath": "com.capacitorjs.plugins.storage.StoragePlugin"
+	},
+	{
+		"pkg": "capacitor-razorpay",
+		"classpath": "com.ionicframework.capacitor.Checkout"
 	}
 ]

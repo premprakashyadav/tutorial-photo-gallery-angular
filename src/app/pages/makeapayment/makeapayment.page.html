@@ -8,10 +8,19 @@
 </ion-header>
 
 <ion-content class="ion-padding-horizontal">
-    <ion-item>
-      <ion-input type="number" placeholder="Amount"></ion-input>
-    </ion-item>
-</ion-content>
+  <form #regForm="ngForm">
+    <ion-list>
+      <ion-item class="mand">
+        <ion-input type="text" placeholder="Amount" [(ngModel)]="regData.mobile" name="mobile" required>
+        </ion-input>
+      </ion-item>
+      <ion-item class="mand">
+        <ion-input type="number" placeholder="Amount" [(ngModel)]="regData.amount" name="amount" required>
+        </ion-input>
+      </ion-item>
+</ion-list>
 <ion-footer no-border>
-  <ion-button expand="block" color="tertiary">Submit</ion-button>
+  <ion-button expand="block" color="tertiary" (click)="payWithRazorpay()" [disabled]="regForm.invalid">Submit</ion-button>
 </ion-footer>
+  </form>
+</ion-content>
