@@ -63,7 +63,8 @@ export class MakeapaymentPage implements OnInit {
 
         this.presentAlert(data.response);
       } catch (error) {
-        this.presentAlert(error.message); //Doesn't appear at all
+        const err = JSON.parse(error);
+        this.alert(err.description);
       }
     }
   }
