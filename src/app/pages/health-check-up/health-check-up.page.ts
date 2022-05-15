@@ -40,11 +40,22 @@ export class HealthCheckUpPage implements OnInit {
     private modalController: ModalController,
     private providerSvc: ProviderService,
     public alertController: AlertController,
-    private router: Router) { }
+    private router: Router,
+    private http: HttpClient) { }
 
   async ngOnInit() {
     this.doctorID = this.activatedRoute.snapshot.params['did'];
-    this.itemList = this.constantData.healthCheckData;
+    this.http.get('http://surgician.com/surgicianMobile/patient/healthCheckup.json').subscribe((data) => {
+      console.log(data);
+
+    })
+    // this.providerSvc.getHealthCheckup('http://surgician.com/surgicianMobile/patient/healthCheckup.json').pipe(map(res => res.json())).subscribe((data) => {
+    //   if(data) {
+    //     this.itemList = data;
+    //   }
+    // });
+    //this.itemList = API_URL + 'healthCheckup.json';
+    //this.constantData.healthCheckData;
     this.getData();
   }
 

@@ -29,4 +29,8 @@ export class ProviderService {
   getData(getpathURL: string) {
     return this.http.get(API_URL + getpathURL);
   }
+
+  getHealthCheckup(getpathURL: string) {
+    return this.http.get(API_URL + getpathURL);
+  }
 }

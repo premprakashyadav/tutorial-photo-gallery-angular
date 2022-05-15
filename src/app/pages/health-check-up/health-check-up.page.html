@@ -16,14 +16,14 @@
     </ion-item>
     <ion-item>
       <ion-select placeholder="Lab Test" (ionChange)="itemChange($event)" multiple="true">
-        <ion-select-option *ngFor="let item of itemList" [value]="item.name">{{item.name}}</ion-select-option>
+        <ion-select-option *ngFor="let item of itemList" [value]="item.name">{{item}}</ion-select-option>
       </ion-select>
     </ion-item>
   </div>
 
   <div class="booking-wrap">
     <div class="attachment">
-      <p class="attach_note">If more than 4 pages attachment, you can email us <b>support@surgician.com</b></p>
+      <p class="attach_note">If more than 8 pages attachment, you can email us <b>support@surgician.com</b>. Maximum allowed each attachment size is 5MB.</p>
       <ion-button (click)="presentActionSheet()" color="secondary"> Attach Report/Prescription &nbsp; <ion-badge
           color="success" *ngIf="attachmentImg.length > 0 || photoService.photos.length > 0">
           {{attachmentImg.length + photoService.photos.length}}</ion-badge>

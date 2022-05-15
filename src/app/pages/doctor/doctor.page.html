@@ -73,7 +73,7 @@
       </ion-item>
     </div>
     <div class="attachment">
-      <p class="attach_note">If more than 4 pages attachment, you can email us <b>support@surgician.com</b></p>
+      <p class="attach_note">If more than 8 pages attachment, you can email us <b>support@surgician.com</b>. Maximum allowed each attachment size is 5MB.</p>
       <ion-button (click)="presentActionSheet()" color="secondary"> Attach Report/Prescription &nbsp; <ion-badge color="success" *ngIf="attachmentImg.length > 0 || photoService.photos.length > 0">{{attachmentImg.length}} + {{photoService.photos.length}}</ion-badge></ion-button>
       <input #userInput style="position: absolute; width: 0; height: 0; opacity: 0" multiple type="file" (change)="loadImageFromDevice1($event)" class="fileInput" accept="image/png, image/jpeg">
       <!-- <ion-grid class="attach_grid">
