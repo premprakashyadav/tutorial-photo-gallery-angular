@@ -298,7 +298,6 @@ if (this.photoService.photos.length > 0) {
   opemcam() {
     this.photoService.addNewToGallery();
     if (this.photoService.photos.length > 0) {
-      debugger;
       this.attachmentImg = [...this.attachmentImg, ...this.photoService.photos];
       this.prescription = [...this.prescription, ...this.photoService.photos];
 

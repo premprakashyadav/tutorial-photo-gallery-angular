@@ -65,7 +65,8 @@
           <ion-label>{{itemSch.time_slot}}</ion-label>
         </ion-segment-button>
       </ion-segment> -->
-      <ion-item>
+      <ion-label color="danger" *ngIf="(itemsSchedule && itemsSchedule.length < 1)">Time Slot not Available for this date</ion-label>
+      <ion-item *ngIf="(itemsSchedule && itemsSchedule.length > 0)">
         <ion-label>Available Time Slot</ion-label>
         <ion-select (ionChange)="TimeSlotChange($event)">
           <ion-select-option *ngFor="let itemSch of itemsSchedule" [value]="itemSch.time_slot">{{itemSch.time_slot}}</ion-select-option>
@@ -74,7 +75,7 @@
     </div>
     <div class="attachment">
       <p class="attach_note">If more than 8 pages attachment, you can email us <b>support@surgician.com</b>. Maximum allowed each attachment size is 5MB.</p>
-      <ion-button (click)="presentActionSheet()" color="secondary"> Attach Report/Prescription &nbsp; <ion-badge color="success" *ngIf="attachmentImg.length > 0 || photoService.photos.length > 0">{{attachmentImg.length}} + {{photoService.photos.length}}</ion-badge></ion-button>
+      <ion-button (click)="presentActionSheet()" color="secondary"> Attach Report/Prescription &nbsp; <ion-badge color="success" *ngIf="attachmentImg.length > 0 || photoService.photos.length > 0">{{attachmentImg.length + photoService.photos.length}}</ion-badge></ion-button>
       <input #userInput style="position: absolute; width: 0; height: 0; opacity: 0" multiple type="file" (change)="loadImageFromDevice1($event)" class="fileInput" accept="image/png, image/jpeg">
       <!-- <ion-grid class="attach_grid">
         <ion-row>

@@ -3,6 +3,8 @@ import { Storage } from '@capacitor/storage';
 import { ProviderService } from '../../services/provider.service';
 import { LocalNotifications } from '@capacitor/local-notifications';
 import { DatePipe } from '@angular/common';
+import { ActionSheetController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -27,11 +29,46 @@ export class HomePage implements OnInit {
 
   empty:number;
 
-  constructor(private providerSvc: ProviderService, public datePipe: DatePipe) { }
+  constructor(private providerSvc: ProviderService, public datePipe: DatePipe,
+    public actionSheetController: ActionSheetController,
+    private router: Router) { }
 
   ngOnInit() {
     this.getData();
     this.promptNotify();
+  }
+
+  async presentActionSheet() {
+    const actionSheet = await this.actionSheetController.create({
+      header: 'Choose any one option',
+      cssClass: 'my-custom-class',
+      buttons: [{
+        text: 'Visit a Lab',
+        role: 'Visit a Lab',
+        icon: 'storefront-outline',
+        handler: () => {
+          this.router.navigate(['/visitor'])
+        }
+      },{
+        text: 'Home Visit',
+        role: 'Home Visit',
+        icon: 'home-outline',
+        handler: () => {
+          this.router.navigate(['/home-service'])
+        }
+      }, {
+        text: 'Cancel',
+        icon: 'close',
+        role: 'cancel',
+        handler: () => {
+          console.log('Cancel clicked');
+        }
+      }]
+    });
+    await actionSheet.present();
+
+    const { role, data } = await actionSheet.onDidDismiss();
+    console.log('onDidDismiss resolved with role and data', role, data);
   }
 
   getData() {

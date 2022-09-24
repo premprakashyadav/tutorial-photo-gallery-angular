@@ -97,8 +97,12 @@ export class VisitorPage implements OnInit {
 
     }
     let dataPost = new FormData();
-    Array.from(this.prescription)
-    .forEach((file: File) => dataPost.append('attachment[]', file));
+    if (this.prescription.length > 0) {
+      Array.from(this.prescription)
+        .forEach((file: File) => dataPost.append('attachment[]', file));
+    } else {
+      dataPost.append('attachment[]', this.prescription)
+    }
     dataPost.append('inputFormName', this.inputFormName);
     dataPost.append('inputPatientName', this.patname);
     dataPost.append('inputPatientContact', this.patcontact);
@@ -111,10 +115,9 @@ export class VisitorPage implements OnInit {
       this.ctrl.presentLoading();
       this.presentToast();
     }
-    (error) => {
-      this.errorAlert(error);
-      console.log(error);
-    }
+  }, (error) => {
+    this.errorAlert(error);
+    console.log(error);
   });
 }
 
@@ -138,12 +141,16 @@ async presentToast() {
         icon: 'checkmark-circle-outline',
         text: 'Booked!',
         handler: () => {
+          this.photoService.photos = [];
+          this.attachmentImg = [];
           this.router.navigate(['/tabs/appointment']);
         }
       }, {
         text: 'Done',
         role: 'cancel',
         handler: () => {
+          this.photoService.photos = [];
+          this.attachmentImg = [];
           this.router.navigate(['/tabs/home']);
         }
       }

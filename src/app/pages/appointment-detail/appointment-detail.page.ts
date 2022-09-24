@@ -53,10 +53,14 @@ export class AppointmentDetailPage implements OnInit {
   }
 
   BookAppointment() {
-   // this.prescription.push(this.photoService.fileData);
+    // this.prescription.push(this.photoService.fileData);
     let dataPost = new FormData();
-    Array.from(this.prescription)
-    .forEach((file: File) => dataPost.append('inputPrescription[]', file));
+    if (this.prescription.length > 0) {
+      Array.from(this.prescription)
+        .forEach((file: File) => dataPost.append('inputPrescription[]', file));
+    } else {
+      dataPost.append('inputPrescription[]', this.prescription)
+    }
     dataPost.append('inputPatient', this.patientID);
     dataPost.append('inputDate', this.date);
     dataPost.append('inputTime', this.time);
@@ -66,18 +70,21 @@ export class AppointmentDetailPage implements OnInit {
     dataPost.append('inputEmail', this.patientEmail);
     dataPost.append('inputPatientName', this.patientName);
     dataPost.append('inputDoctorName', this.doctorName);
-   // dataPost.append('inputPrescription[]', this.prescription)
+    // dataPost.append('inputPrescription[]', this.prescription)
 
     this.providerSvc.postData("appointment.php", dataPost).subscribe((res) => {
-      if(res) {
-      this.ctrl.presentLoading();
-      this.presentToast();
-    }
-    // (error) => {
-    //   this.errorAlert(error);
-    //   console.log(error);
-    // }
-  });
+      if (res) {
+        this.ctrl.presentLoading();
+        this.presentToast();
+      } else {
+        this.errorAlert({
+          message: 'Your appointment is not Booked. Please try again'
+        });
+      }
+    }, (error) => {
+      this.errorAlert(error);
+      console.log(error);
+    });
   }
 
   async closeModal() {
@@ -94,6 +101,8 @@ export class AppointmentDetailPage implements OnInit {
           icon: 'checkmark-circle-outline',
           text: 'Booked!',
           handler: () => {
+            this.closeModal();
+            this.photoService.photos = [];
             this.router.navigate(['/tabs/appointment']);
             console.log('Book Added');
           }
@@ -101,6 +110,9 @@ export class AppointmentDetailPage implements OnInit {
           text: 'Done',
           role: 'cancel',
           handler: () => {
+            this.closeModal();
+            this.photoService.photos = [];
+            this.router.navigate(['/tabs/home']);
             console.log('Cancel clicked');
           }
         }
