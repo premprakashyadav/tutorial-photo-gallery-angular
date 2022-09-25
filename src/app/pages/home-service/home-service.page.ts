@@ -18,7 +18,7 @@ export class HomeServicePage implements OnInit {
   userInputElement: HTMLInputElement;
   items: any;
   itemList: any;
-  prescription = [];
+  prescription: any = [];
   imgURL: string;
   attachmentImg = [];
   inputFormName = 'Home Visit';

@@ -19,7 +19,7 @@ export class OneClickPage implements OnInit {
   userInputElement: HTMLInputElement;
   items: any;
   itemList: any;
-  prescription = [];
+  prescription: any = [];
   imgURL: string;
   attachmentImg = [];
   inputFormName = 'One Click';

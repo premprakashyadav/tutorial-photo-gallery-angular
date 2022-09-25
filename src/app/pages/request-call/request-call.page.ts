@@ -18,7 +18,7 @@ export class RequestCallPage implements OnInit {
   userInputElement: HTMLInputElement;
   items: any;
   itemList: any;
-  prescription = [];
+  prescription: any = [];
   imgURL: string;
   attachmentImg = [];
   inputFormName = 'Request a Call';

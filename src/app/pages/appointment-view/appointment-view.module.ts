@@ -22,7 +22,6 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    ReviewPageModule,
     RouterModule.forChild(routes)
   ],
   declarations: [AppointmentViewPage],

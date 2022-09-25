@@ -18,7 +18,7 @@ export class HospitalPage implements OnInit {
   userInputElement: HTMLInputElement;
   items: any;
   itemList: any;
-  prescription = [];
+  prescription: any = [];
   imgURL: string;
   attachmentImg = [];
   inputFormName = 'Hospital';

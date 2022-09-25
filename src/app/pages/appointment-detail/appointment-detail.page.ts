@@ -64,7 +64,7 @@ export class AppointmentDetailPage implements OnInit {
     dataPost.append('inputPatient', this.patientID);
     dataPost.append('inputDate', this.date);
     dataPost.append('inputTime', this.time);
-    dataPost.append('inputTreatment', this.treatment);
+    dataPost.append('inputTreatment', (this.treatment ? this.treatment : 'Consulting'));
     dataPost.append('inputDoctor', this.doctorID);
     dataPost.append('inputClinic', this.clinicID);
     dataPost.append('inputEmail', this.patientEmail);

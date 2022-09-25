@@ -11,8 +11,8 @@ import { ControllersService } from '../../services/controllers.service';
 export class ReviewPage implements OnInit {
 
   constructor(public modalCtrl: ModalController,
-              private providerSvc: ProviderService,
-              public ctrl: ControllersService) { }
+    private providerSvc: ProviderService,
+    public ctrl: ControllersService) { }
 
   @Input() public doctorID: string;
   @Input() public patientID: string;
@@ -38,13 +38,17 @@ export class ReviewPage implements OnInit {
 
     this.providerSvc.postData('review.php', dataPost).subscribe(res => {
       this.ctrl.alertPopUp("Successful", "Thank you for rating", "OK");
+      this.closeModal();
     }, error => {
       console.log(error);
     });
   }
 
-  async closeModal() {
-    await this.modalCtrl.dismiss(null, undefined);
-  }
+   async closeModal() {
+    const modal = await this.modalCtrl.getTop();
+    if (modal) {
+      await this.modalCtrl.dismiss(true);
+    }
+   }
 
 }

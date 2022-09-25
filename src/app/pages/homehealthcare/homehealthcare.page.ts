@@ -19,7 +19,7 @@ export class HomehealthcarePage implements OnInit {
   items: any;
   itemList: any;
   equipmentList: any;
-  prescription = [];
+  prescription: any = [];
   imgURL: string;
   attachmentImg = [];
   inputFormName = 'Home HealthCare';

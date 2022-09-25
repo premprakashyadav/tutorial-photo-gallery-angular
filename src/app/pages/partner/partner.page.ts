@@ -18,7 +18,7 @@ export class PartnerPage implements OnInit {
   userInputElement: HTMLInputElement;
   items: any;
   itemList: any;
-  prescription = [];
+  prescription: any = [];
   imgURL: string;
   attachmentImg = [];
   inputFormName = 'Our Partner';
