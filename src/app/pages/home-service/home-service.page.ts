@@ -44,7 +44,7 @@ export class HomeServicePage implements OnInit {
 
   async ngOnInit() {
     this.doctorID = this.activatedRoute.snapshot.params['did'];
-    this.itemList = this.constantData.healthCheckData;
+    this.itemList = this.constantData.homeServiceData;
     this.getData();
   }
 
@@ -109,7 +109,7 @@ if (this.photoService.photos.length > 0) {
     dataPost.append('lab_test', this.lab_test);
     dataPost.append('inputPatientEmail', this.email);
     dataPost.append('message', this.message);
-
+    if(this.prescription.length > 0 || this.message || this.lab_test) {
     this.providerSvc.postData("appointment_two.php", dataPost).subscribe(async (res: any) => {
       if(res) {
       this.ctrl.presentLoading();
@@ -118,7 +118,12 @@ if (this.photoService.photos.length > 0) {
   }, (error) => {
     this.errorAlert(error);
     console.log(error);
-  });
+    });
+  } else {
+    this.errorAlert({
+      message: 'At least one field must be filled out to submit the form.'
+    });
+  }
 }
 
 async errorAlert(err) {

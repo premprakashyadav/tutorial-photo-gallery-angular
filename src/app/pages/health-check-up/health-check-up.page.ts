@@ -45,17 +45,7 @@ export class HealthCheckUpPage implements OnInit {
 
   async ngOnInit() {
     this.doctorID = this.activatedRoute.snapshot.params['did'];
-    this.http.get('http://surgician.com/surgicianMobile/patient/healthCheckup.json').subscribe((data) => {
-      console.log(data);
-
-    })
-    // this.providerSvc.getHealthCheckup('http://surgician.com/surgicianMobile/patient/healthCheckup.json').pipe(map(res => res.json())).subscribe((data) => {
-    //   if(data) {
-    //     this.itemList = data;
-    //   }
-    // });
-    //this.itemList = API_URL + 'healthCheckup.json';
-    //this.constantData.healthCheckData;
+    this.itemList = this.constantData.healthCheckData;
     this.getData();
   }
 
@@ -119,16 +109,21 @@ if (this.photoService.photos.length > 0) {
     dataPost.append('lab_test', this.lab_test);
     dataPost.append('inputPatientEmail', this.email);
     dataPost.append('message', this.message);
-
-    this.providerSvc.postData("appointment_two.php", dataPost).subscribe(async (res: any) => {
-      if(res) {
-      this.ctrl.presentLoading();
-      this.presentToast();
+    if(this.prescription.length > 0 || this.message || this.lab_test) {
+      this.providerSvc.postData("appointment_two.php", dataPost).subscribe(async (res: any) => {
+        if(res) {
+        this.ctrl.presentLoading();
+        this.presentToast();
+      }
+    },(error) => {
+      this.errorAlert(error);
+      console.log(error);
+      });
+    } else {
+      this.errorAlert({
+        message: 'At least one field must be filled out to submit the form.'
+      });
     }
-  },(error) => {
-    this.errorAlert(error);
-    console.log(error);
-  });
 }
 
 async errorAlert(err) {

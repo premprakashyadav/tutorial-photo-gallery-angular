@@ -102,11 +102,11 @@
    */
   
   .ios body {
-    --ion-background-color: #000000;
+    --ion-background-color: #ffffff;
     --ion-background-color-rgb: 0,0,0;
   
-    --ion-text-color: #ffffff;
-    --ion-text-color-rgb: 255,255,255;
+    --ion-text-color: #000000;
+    --ion-text-color-rgb: 0,0,0;
   
     --ion-color-step-50: #0d0d0d;
     --ion-color-step-100: #1a1a1a;
@@ -124,13 +124,13 @@
     --ion-color-step-700: #b3b3b3;
     --ion-color-step-750: #bfbfbf;
     --ion-color-step-800: #cccccc;
-    --ion-color-step-850: #d9d9d9;
+    --ion-color-step-850: #000000;
     --ion-color-step-900: #e6e6e6;
     --ion-color-step-950: #f2f2f2;
   
     --ion-toolbar-background: #0d0d0d;
   
-    --ion-item-background: #1c1c1c;
+    --ion-item-background: #ffffff;
     --ion-item-background-activated: #313131;
   }
   
@@ -141,11 +141,11 @@
    */
   
   .md body {
-    --ion-background-color: #000000;
+    --ion-background-color: #ffffff;
     --ion-background-color-rgb: 18,18,18;
   
-    --ion-text-color: #ffffff;
-    --ion-text-color-rgb: 255,255,255;
+    --ion-text-color: #000000;
+    --ion-text-color-rgb: 0,0,0;
   
     --ion-border-color: #222222;
   
@@ -165,14 +165,18 @@
     --ion-color-step-700: #b8b8b8;
     --ion-color-step-750: #c4c4c4;
     --ion-color-step-800: #d0d0d0;
-    --ion-color-step-850: #dbdbdb;
+    --ion-color-step-850: #000000;
     --ion-color-step-900: #e7e7e7;
     --ion-color-step-950: #f3f3f3;
   
-    --ion-item-background: #1A1B1E;
+    --ion-item-background: #ffffff;
   }
   
   ion-title.title-large {
     --color: white;
+  }
+
+  .action-sheet-button,.action-sheet-icon{
+    color: #000!important;
   }
 }

@@ -16,7 +16,7 @@
     </ion-item>
     <ion-item>
       <ion-select placeholder="Lab Test" (ionChange)="itemChange($event)" multiple="true">
-        <ion-select-option *ngFor="let item of itemList" [value]="item.name">{{item}}</ion-select-option>
+        <ion-select-option *ngFor="let item of itemList" [value]="item.name">{{item.name}}</ion-select-option>
       </ion-select>
     </ion-item>
   </div>

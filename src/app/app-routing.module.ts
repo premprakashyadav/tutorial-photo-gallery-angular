@@ -112,7 +112,8 @@ const routes: Routes = [
   {
     path: 'visitor',
     loadChildren: () => import('./pages/visitor/visitor.module').then( m => m.VisitorPageModule)
-  },  {
+  },
+  {
     path: 'home-service',
     loadChildren: () => import('./pages/home-service/home-service.module').then( m => m.HomeServicePageModule)
   },
@@ -133,7 +134,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/request-call/request-call.module').then( m => m.RequestCallPageModule)
   },
   {
-    path: 'second-openion',
+    path: 'second-opinion',
     loadChildren: () => import('./pages/second-openion/second-openion.module').then( m => m.SecondOpenionPageModule)
   },
   {

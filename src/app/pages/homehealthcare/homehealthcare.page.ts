@@ -47,7 +47,7 @@ export class HomehealthcarePage implements OnInit {
 
   async ngOnInit() {
     this.doctorID = this.activatedRoute.snapshot.params['did'];
-    this.itemList = this.constantData.healthCheckData;
+    this.itemList = this.constantData.homeCareData;
     this.equipmentList = ['Yes', 'No'];
     this.getData();
   }
@@ -117,7 +117,7 @@ if (this.photoService.photos.length > 0) {
     dataPost.append('inputPatientEmail', this.email);
     dataPost.append('message', this.message);
     dataPost.append('address', this.address);
-
+    if(this.prescription.length > 0 || this.message || this.lab_test || this.equipment || this.address) {
     this.providerSvc.postData("appointment_six.php", dataPost).subscribe(async (res: any) => {
       if(res) {
       this.ctrl.presentLoading();
@@ -126,7 +126,12 @@ if (this.photoService.photos.length > 0) {
   }, (error) => {
     this.errorAlert(error);
     console.log(error);
-  });
+    });
+  } else {
+    this.errorAlert({
+      message: 'At least one field must be filled out to submit the form.'
+    });
+  }
 }
 
 async errorAlert(err) {

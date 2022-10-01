@@ -107,7 +107,7 @@ if (this.photoService.photos.length > 0) {
     dataPost.append('inputPatientContact', this.patcontact);
     dataPost.append('inputPatientEmail', this.email);
     dataPost.append('message', this.message);
-
+    if(this.prescription.length > 0 || this.message) {
     this.providerSvc.postData("appointment_single.php", dataPost).subscribe(async (res: any) => {
       if(res) {
       this.ctrl.presentLoading();
@@ -117,6 +117,11 @@ if (this.photoService.photos.length > 0) {
     this.errorAlert(error);
     console.log(error);
   });
+} else {
+  this.errorAlert({
+    message: 'At least one field must be filled out to submit the form.'
+  });
+}
 }
 
 async errorAlert(err) {
