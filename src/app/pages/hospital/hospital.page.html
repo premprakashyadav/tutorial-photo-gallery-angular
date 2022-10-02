@@ -9,6 +9,11 @@
 
 <ion-content class="ion-padding-horizontal">
   <small>*Hospital use only</small>
+  <ion-slides [options]="{loop: true, autoplay: true}">
+    <ion-slide>
+      <img src="assets/21.jpg" />
+    </ion-slide>
+  </ion-slides>
   <div class="ion-padding-horizontal">
     <ion-item>
       <ion-input type="text" [(ngModel)]="hospitalName" placeholder="Hospital's Name & address"></ion-input>

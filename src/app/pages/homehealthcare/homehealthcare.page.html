@@ -8,6 +8,17 @@
 </ion-header>
 
 <ion-content class="ion-padding-horizontal">
+  <ion-slides [options]="{loop: true, autoplay: true}">
+
+    <ion-slide>
+      <img src="assets/14.jpg" />
+    </ion-slide>
+
+    <ion-slide>
+      <img src="assets/5.jpg" />
+    </ion-slide>
+
+  </ion-slides>
   <div class="ion-padding-horizontal">
     <ion-item>
       <ion-select placeholder="Home Healthcare list" (ionChange)="itemChange($event)" multiple="true">

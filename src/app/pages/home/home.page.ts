@@ -3,7 +3,7 @@ import { Storage } from '@capacitor/storage';
 import { ProviderService } from '../../services/provider.service';
 import { LocalNotifications } from '@capacitor/local-notifications';
 import { DatePipe } from '@angular/common';
-import { ActionSheetController } from '@ionic/angular';
+import { ActionSheetController, NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 @Component({
@@ -91,6 +91,7 @@ export class HomePage implements OnInit {
     });
     this.providerSvc.postData("appointment-list.php", postData).subscribe(appdata => {
       if (appdata != null) {
+        debugger;
         this.clinicID = appdata[0].clinic_id;
         this.doctorID = appdata[0].doctor_id;
         this.doctorName = appdata[0].doctor_lastname +" "+ appdata[0].doctor_firstname;
@@ -101,7 +102,7 @@ export class HomePage implements OnInit {
         this.empty = 0;
 
         var currentDate = this.datePipe.transform(new Date().toLocaleString(), 'yyyy-MM-dd');;        
-        if (this.appDate > currentDate) {
+        if (this.appDate > (currentDate ? currentDate : '')) {
           this.promptNotify();
         }
       } else {

@@ -8,6 +8,25 @@
 </ion-header>
 
 <ion-content class="ion-padding-horizontal">
+  <ion-slides [options]="{loop: true, autoplay: true}">
+
+    <ion-slide>
+      <img src="assets/9.jpg" />
+    </ion-slide>
+
+    <ion-slide>
+      <img src="assets/10.jpg" />
+    </ion-slide>
+
+    <ion-slide>
+      <img src="assets/4.jpg" />
+    </ion-slide>
+
+    <ion-slide>
+      <img src="assets/11.jpg" />
+    </ion-slide>
+
+  </ion-slides>
   <div class="ion-padding-horizontal">
     <ion-item>
       <ion-textarea rows="6" cols="20" autoGrow="true" [(ngModel)]="message"

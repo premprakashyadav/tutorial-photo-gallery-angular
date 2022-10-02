@@ -6,7 +6,6 @@
     <ion-title>Doctor</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content *ngFor="let item of items">
   
   <div class="profile-card">
@@ -25,6 +24,18 @@
       </ion-col>
     </ion-row>
   </div>
+  <ion-slides pager="true" [options]="{initialSlide: 0,speed: 400}">
+
+    <ion-slide>
+      <img src="assets/22.jpg" />
+    </ion-slide>
+  
+    <ion-slide>
+      <img src="assets/3.jpg" />
+    </ion-slide>
+  
+  
+  </ion-slides>
 
   <div class="ion-padding-horizontal">
     <ion-row class="doctor-info">

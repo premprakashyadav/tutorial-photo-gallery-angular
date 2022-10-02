@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SplashScreen } from '@capacitor/splash-screen'
 import { AlertController, Platform } from '@ionic/angular';
 import { AuthenticationService } from './services/authentication.service';
 import { Location } from '@angular/common';
+import { App as CapacitorApp } from '@capacitor/app';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -18,15 +19,24 @@ export class AppComponent {
     public alertController: AlertController
   ) {
     this.initializeApp();
-    this.platform.backButton.subscribeWithPriority(10, () => {
-      console.log('Handler was called!');
-      this.showExitConfirm();
-    });
+    // this.platform.backButton.subscribeWithPriority(10, () => {
+    //   console.log('Handler was called!');
+    //   this.showExitConfirm();
+    // });
+    // console.log('Constructor' + this.platform.backButton);
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
       SplashScreen.hide();
+      CapacitorApp.addListener('backButton', ({canGoBack}) => {
+        if(!canGoBack){
+          this.showExitConfirm();
+          CapacitorApp.exitApp();
+        } else {
+          window.history.back();
+        }
+      });
       this.authenticateService.authenticationState.subscribe(state => {
         if(state) {
           this.router.navigate(['tabs/home']);

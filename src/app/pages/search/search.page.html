@@ -7,10 +7,17 @@
   </div>
 
   <ion-content>
+    <ion-slides [options]="{loop: true, autoplay: true}">
+
+      <ion-slide>
+        <img src="assets/13.jpg" />
+      </ion-slide>
+
+    </ion-slides>
     <div class="grid">
 
       <ion-row>
-        <ion-col>
+        <!-- <ion-col>
           <ion-card (click)="searchClinic()">
             <ion-thumbnail slot="start">
               <img src="https://img.icons8.com/color/96/000000/clinic.png">
@@ -25,7 +32,7 @@
             </ion-thumbnail>
             <h5>All Doctor</h5>
           </ion-card>
-        </ion-col>
+        </ion-col> -->
 
         <ion-col *ngFor="let item of items">
           <ion-card (click)="searchLink(item.speciality_id)">

@@ -8,6 +8,11 @@
 </ion-header>
 
 <ion-content class="ion-padding-horizontal">
+  <ion-slides [options]="{loop: true, autoplay: true}">
+    <ion-slide>
+      <img src="assets/18.jpg" />
+    </ion-slide>
+  </ion-slides>
   <div class="ion-padding-horizontal">
     <ion-item>
       <ion-input type="text" [(ngModel)]="patientName" placeholder="Patient's Name"></ion-input>
